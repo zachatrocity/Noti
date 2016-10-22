@@ -22,7 +22,7 @@ class Ephemerals: NSObject {
         self.token = token
     }
     
-    internal func sendEphemeral(_ body: [String: Any]) {
+    private func sendEphemeral(_ body: [String: Any]) {
         var body = body
         let headers = [
             "Access-Token": token
@@ -89,10 +89,6 @@ class Ephemerals: NSObject {
         let body = [
             "key": source_device_iden + "_threads"
         ]
-
-        var request = URLRequest(url: URL(string: "https://api.pushbullet.com/v3/get-permanent")!)
-        request.allHTTPHeaderFields = headers
-        request.httpMethod = "POST"
         
         Alamofire.request("https://api.pushbullet.com/v3/get-permanent", method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers)
             .responseString { response in

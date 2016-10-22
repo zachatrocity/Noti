@@ -12,28 +12,9 @@ import Foundation
 import Starscream
 import SwiftyJSON
 import Alamofire
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
 
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
+class PushManager: NSObject, WebSocketDelegate {
 
-
-class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate {
     var socket:WebSocket?
     let center = NSUserNotificationCenter.default
     var pushHistory = [JSON]()
@@ -143,122 +124,6 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
         getUserInfo(self._callback)
     }
     
-    
-    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        switch notification.activationType {
-            case .actionButtonClicked:
-                var alternateAction = notification.value(forKey: "_alternateActionIndex") as! Int
-                
-                if(alternateAction == Int.max) {
-                    //user did not use an alternate action, set the index to 0
-                    alternateAction = 0
-                }
-                
-                print("action")
-                print("alternate?", alternateAction)
-                
-                for item in pushHistory {
-                    if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                        if let actions = item["actions"].array {
-                            ephemerals.dismissPush(item, trigger_key: actions[alternateAction]["trigger_key"].string!)
-                            break
-                        }
-                    }
-                }
-                break
-            case .contentsClicked:
-                //check if this is the encryption warning notification
-                if notification.identifier?.characters.count > 12 {
-                    let index = notification.identifier!.characters.index(notification.identifier!.startIndex, offsetBy: 12)
-                    if notification.identifier?.substring(to: index) == "noti_encrypt" {
-                        displayPasswordForm()
-                        return
-                    }
-                }
-                
-                Alamofire.request("https://update.pushbullet.com/android_mapping.json", method: .get)
-                    .responseString { response in
-                        if let result = response.result.value {
-                            let mapping = JSON.parse(result)
-                            
-                            for item in self.pushHistory {
-                                if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                                    if let url = mapping[item["package_name"].string!].string {
-                                        NSWorkspace.shared().open(URL(string: url)!)
-                                    }
-                                }
-                            }
-                        }
-                }
-                
-                for item in pushHistory {
-                    if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                        ephemerals.dismissPush(item, trigger_key: nil)
-                        break
-                    }
-                }
-                
-                break
-            
-            case .replied:
-                let body = notification.response?.string
-                
-                func doQuickReply() {
-                    var indexToBeRemoved = -1, i = -1
-                    for item in pushHistory {
-                        i += 1
-                        if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                            ephemerals.quickReply(item, reply: body!)
-                            indexToBeRemoved = i
-                            break
-                        }
-                    }
-                    if(indexToBeRemoved != -1) {
-                        pushHistory.remove(at: indexToBeRemoved)
-                    }
-                }
-                
-                //determine if we replied to a sms or a normal notification
-                if notification.identifier?.characters.count > 4 {
-                    let index = notification.identifier?.characters.index((notification.identifier?.startIndex)!, offsetBy: 4)
-                    if notification.identifier?.substring(to: index!) == "sms_" {
-                        var indexToBeRemoved = -1, i = -1
-                        for item in pushHistory {
-                            i += 1
-                            if item["type"].string == "sms_changed" {
-                                let metadata = notification.identifier?.substring(from: index!).components(separatedBy: "|")
-                                let thread_id = metadata![1], source_device_iden = metadata![0], timestamp = metadata![2]
-                                
-                                for (_, sms):(String, JSON) in item["notifications"] {
-                                    if(sms["thread_id"].string! == thread_id && String(sms["timestamp"].int!) == timestamp) {
-                                        ephemerals.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
-                                        indexToBeRemoved = i
-                                        break
-                                    }
-                                }
-                                
-                                if(indexToBeRemoved != -1) {
-                                    break
-                                }
-                            }
-                        }
-                        if(indexToBeRemoved != -1) {
-                            pushHistory.remove(at: indexToBeRemoved)
-                        }
-                    } else {
-                        doQuickReply()
-                    }
-                } else {
-                    doQuickReply()
-                }
-                
-            break
-        default:
-            print("did not understand activation type", notification.activationType.rawValue)
-            break
-        }
-    }
-    
     func connect() {
         socket!.delegate = self
         socket!.connect()
@@ -328,158 +193,293 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
             
         }
     }
-    
-    internal func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-        print("PushManager", "receive", text)
-        
-        var message = JSON.parse(text)
-        
-        if let type = message["type"].string {
-            switch type {
-                
-            case "tickle":
-                if let subtype = message["subtype"].string {
-                    if(subtype == "account") {
-                        getUserInfo(nil)
-                    }
-                }
-                break
-            case "push":
-                let push = message["push"]
-                pushHistory.append(push)
-                
-                if push["encrypted"].exists() && push["encrypted"].bool! {
-                    func warnUser() {
-                        let noti = NSUserNotification()
-                        noti.title = "I received data I couldn't understand!"
-                        noti.informativeText = "It appears you're using encryption, click to set password."
-                        noti.actionButtonTitle = "Enter password"
-                        noti.identifier = "noti_encrypt" + String(arc4random())
-                        center.deliver(noti)
-                    }
-                    
-                    if crypt != nil {
-                        let decrypted = crypt?.decryptMessage(push["ciphertext"].string!)
-                        if decrypted == nil {
-                            warnUser()
-                        } else {
-                            message["push"] = JSON.parse(decrypted!)
-                            //handle decrypted message
-                            websocketDidReceiveMessage(socket: socket, text: message.rawString()!)
-                        }
-                    } else {
-                        warnUser()
-                    }
-                    
-                    return
-                }
-                
-                if let pushType = push["type"].string {
-                    switch(pushType) {
-                    case "mirror":
-                        let notification = NSUserNotification()
-                        notification.otherButtonTitle = "Dismiss    "
-                        notification.actionButtonTitle = "Show"
-                        notification.title = push["title"].string
-                        notification.informativeText = push["body"].string
-                        notification.identifier = push["notification_id"].string
-                        notification.subtitle = push["application_name"].string // todo: keep or remove?
 
-                        if let icon = push["icon"].string {
-                            if let data = Data(base64Encoded: icon, options: Data.Base64DecodingOptions.init(rawValue: 0)),
-                                let img = NSImage(data: data) { // RoundedImage(data: data) {
-                                //notification.setValue(img.withRoundCorners(Int(img.size.width) / 2), forKeyPath: "_identityImage")
-                                notification.setValue(img, forKeyPath: "_identityImage")
-                            }
-                            notification.setValue(false, forKeyPath: "_identityImageHasBorder")
+    private func receivedTickle(message: JSON) {
+        if let subtype = message["subtype"].string {
+            if(subtype == "account") {
+                getUserInfo(nil)
+            }
+        }
+    }
+
+    private func receivedPush(socket: WebSocket, message: JSON) {
+        let push = message["push"]
+        var message = message
+        pushHistory.append(push)
+
+        if push["encrypted"].exists() && push["encrypted"].bool! {
+            func warnUser() {
+                let noti = NSUserNotification()
+                noti.title = "I received data I couldn't understand!"
+                noti.informativeText = "It appears you're using encryption, click to set password."
+                noti.actionButtonTitle = "Enter password"
+                noti.identifier = "noti_encrypt" + String(arc4random())
+                center.deliver(noti)
+            }
+
+            if crypt != nil {
+                let decrypted = crypt?.decryptMessage(push["ciphertext"].string!)
+                if decrypted == nil {
+                    warnUser()
+                } else {
+                    message["push"] = JSON.parse(decrypted!)
+                    //handle decrypted message
+                    websocketDidReceiveMessage(socket: socket, text: message.rawString()!)
+                }
+            } else {
+                warnUser()
+            }
+
+            return
+        }
+
+        if let pushType = push["type"].string {
+            switch(pushType) {
+            case "mirror":
+                let notification = NSUserNotification()
+                notification.otherButtonTitle = "Dismiss    "
+                notification.actionButtonTitle = "Show"
+                notification.title = push["title"].string
+                notification.informativeText = push["body"].string
+                notification.identifier = push["notification_id"].string
+                notification.subtitle = push["application_name"].string // todo: keep or remove?
+
+                if let icon = push["icon"].string {
+                    if let data = Data(base64Encoded: icon, options: Data.Base64DecodingOptions.init(rawValue: 0)),
+                        let img = NSImage(data: data) { // RoundedImage(data: data) {
+                        //notification.setValue(img.withRoundCorners(Int(img.size.width) / 2), forKeyPath: "_identityImage")
+                        notification.setValue(img, forKeyPath: "_identityImage")
+                    }
+                    notification.setValue(false, forKeyPath: "_identityImageHasBorder")
+                }
+
+                notification.setValue(true, forKeyPath: "_showsButtons")
+
+                if push["conversation_iden"].exists() {
+                    notification.hasReplyButton = true
+                }
+
+                if let actions = push["actions"].array {
+                    if(actions.count == 1 || !(userInfo!["pro"].exists())) {
+                        notification.actionButtonTitle = actions[0]["label"].string!
+                    } else {
+                        var titles = [String]()
+                        for action in actions {
+                            titles.append(action["label"].string!)
                         }
-                        
+                        notification.actionButtonTitle = "Actions"
+                        notification.setValue(true, forKeyPath: "_alwaysShowAlternateActionMenu")
+                        notification.setValue(titles, forKeyPath: "_alternateActionButtonTitles")
+                    }
+                }
+
+                notification.soundName = NSUserNotificationDefaultSoundName
+
+                center.deliver(notification)
+                break
+            case "dismissal":
+                //loop through current user notifications, if identifier matches, remove it
+                for noti in center.deliveredNotifications {
+                    if noti.identifier == push["notification_id"].string {
+                        center.removeDeliveredNotification(noti)
+                        print("Removed a noti (", noti.identifier!, ")")
+                    }
+                }
+                var i = -1, indexToBeRemoved = -1
+                for item in pushHistory {
+                    i += 1
+                    if push["notification_id"].string == item["notification_id"].string {
+                        indexToBeRemoved = i
+                        break
+                    }
+                }
+                if indexToBeRemoved != -1 {
+                    pushHistory.remove(at: indexToBeRemoved)
+                }
+
+                break
+            case "sms_changed":
+                if push["notifications"].exists() {
+                    for sms in push["notifications"].array! {
+                        let notification = NSUserNotification()
+
+                        notification.title = "SMS from " + sms["title"].string!
+                        notification.informativeText = sms["body"].string
+                        notification.hasReplyButton = true
+                        notification.identifier = "sms_" + push["source_device_iden"].string! + "|" + sms["thread_id"].string! + "|" + String(sms["timestamp"].int!)
+
                         notification.setValue(true, forKeyPath: "_showsButtons")
-                        
-                        if push["conversation_iden"].exists() {
-                            notification.hasReplyButton = true
-                        }
-                        
-                        if let actions = push["actions"].array {
-                            if(actions.count == 1 || !(userInfo!["pro"].exists())) {
-                                notification.actionButtonTitle = actions[0]["label"].string!
-                            } else {
-                                var titles = [String]()
-                                for action in actions {
-                                    titles.append(action["label"].string!)
-                                }
-                                notification.actionButtonTitle = "Actions"
-                                notification.setValue(true, forKeyPath: "_alwaysShowAlternateActionMenu")
-                                notification.setValue(titles, forKeyPath: "_alternateActionButtonTitles")
-                            }
-                        }
-                        
-                        notification.soundName = NSUserNotificationDefaultSoundName
-                        
-                        center.deliver(notification)
-                        break
-                    case "dismissal":
-                        //loop through current user notifications, if identifier matches, remove it
-                        for noti in center.deliveredNotifications {
-                            if noti.identifier == push["notification_id"].string {
-                                center.removeDeliveredNotification(noti)
-                                print("Removed a noti (", noti.identifier!, ")")
-                            }
-                        }
-                        var i = -1, indexToBeRemoved = -1
-                        for item in pushHistory {
-                            i += 1
-                            if push["notification_id"].string == item["notification_id"].string {
-                                indexToBeRemoved = i
-                                break
-                            }
-                        }
-                        if indexToBeRemoved != -1 {
-                            pushHistory.remove(at: indexToBeRemoved)
-                        }
-                        
-                        break
-                    case "sms_changed":
-                        if push["notifications"].exists() {
-                            for sms in push["notifications"].array! {
-                                let notification = NSUserNotification()
-                                
-                                notification.title = "SMS from " + sms["title"].string!
-                                notification.informativeText = sms["body"].string
-                                notification.hasReplyButton = true
-                                notification.identifier = "sms_" + push["source_device_iden"].string! + "|" + sms["thread_id"].string! + "|" + String(sms["timestamp"].int!)
-                                
-                                notification.setValue(true, forKeyPath: "_showsButtons")
-                                
-                                notification.soundName = "Glass"
-                                
-                                if let photo = sms["image_url"].string {
-                                    Alamofire.request(photo, method: .get)
-                                        .responseData { response in
-                                            notification.setValue(NSImage(data: response.result.value!), forKey: "_identityImage")
-                                            self.center.deliver(notification)
-                                    }
-                                } else {
+
+                        notification.soundName = "Glass"
+
+                        if let photo = sms["image_url"].string {
+                            Alamofire.request(photo, method: .get)
+                                .responseData { response in
+                                    notification.setValue(NSImage(data: response.result.value!), forKey: "_identityImage")
                                     self.center.deliver(notification)
-                                }
                             }
+                        } else {
+                            self.center.deliver(notification)
                         }
-                        break
-                    default:
-                        print("Unknown type of push", pushType)
-                        break
                     }
                 }
                 break
             default:
-                print("Unknown type of message ", message["type"].string)
+                print("Unknown type of push", pushType)
                 break
             }
         }
-        
     }
-    
+
+    internal func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+        print("PushManager", "receive", text)
+
+        var message = JSON.parse(text)
+
+        if let type = message["type"].string {
+            switch type {
+            case "tickle":
+                self.receivedTickle(message: message)
+            case "push":
+                self.receivedPush(socket: socket, message: message)
+            default:
+                print("Unknown type of message ", message["type"].string)
+            }
+        }
+
+    }
+
     func websocketDidReceiveData(socket: WebSocket, data: Data) {
-        
+
+    }
+}
+
+extension PushManager: NSUserNotificationCenterDelegate {
+
+    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
+        switch notification.activationType {
+        case .actionButtonClicked:
+            self.actionButtonClicked(notification: notification)
+        case .contentsClicked:
+            self.contentsClicked(notification: notification)
+        case .replied:
+            self.replied(notification: notification)
+        default:
+            print("did not understand activation type", notification.activationType.rawValue)
+        }
+    }
+
+    private func actionButtonClicked(notification: NSUserNotification) {
+        var alternateAction = notification.value(forKey: "_alternateActionIndex") as! Int
+
+        if (alternateAction == Int.max) {
+            //user did not use an alternate action, set the index to 0
+            alternateAction = 0
+        }
+
+        print("action")
+        print("alternate?", alternateAction)
+
+        for item in pushHistory {
+            if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
+                if let actions = item["actions"].array {
+                    ephemerals.dismissPush(item, trigger_key: actions[alternateAction]["trigger_key"].string!)
+                    break
+                }
+            }
+        }
+    }
+
+    private func contentsClicked(notification: NSUserNotification) {
+        //check if this is the encryption warning notification
+        if notification.identifier?.characters.count ?? 0 > 12 {
+            let index = notification.identifier!.characters.index(notification.identifier!.startIndex, offsetBy: 12)
+            if notification.identifier?.substring(to: index) == "noti_encrypt" {
+                displayPasswordForm()
+                return
+            }
+        }
+
+        Alamofire.request("https://update.pushbullet.com/android_mapping.json", method: .get)
+            .responseString { response in
+                if let result = response.result.value {
+                    let mapping = JSON.parse(result)
+
+                    for item in self.pushHistory {
+                        guard item["notification_id"].string == notification.identifier && item["type"].string == "mirror" else {
+                            continue
+                        }
+                        if let url = mapping[item["package_name"].string!].string {
+                            NSWorkspace.shared().open(URL(string: url)!)
+                        }
+                    }
+                }
+        }
+
+        for item in pushHistory {
+            if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
+                ephemerals.dismissPush(item, trigger_key: nil)
+                break
+            }
+        }
+    }
+
+    private func replied(notification: NSUserNotification) {
+        let body = notification.response?.string
+
+        func doQuickReply() {
+            var indexToBeRemoved = -1, i = -1
+            for item in pushHistory {
+                i += 1
+                guard item["notification_id"].string == notification.identifier && item["type"].string == "mirror" else {
+                    continue
+                }
+                ephemerals.quickReply(item, reply: body!)
+                indexToBeRemoved = i
+                break
+            }
+            if (indexToBeRemoved != -1) {
+                pushHistory.remove(at: indexToBeRemoved)
+            }
+        }
+
+        guard notification.identifier?.characters.count ?? 0 > 4 else {
+            doQuickReply()
+            return
+        }
+
+        //determine if we replied to a sms or a normal notification
+        let index = notification.identifier?.characters.index((notification.identifier?.startIndex)!, offsetBy: 4)
+        guard notification.identifier?.substring(to: index!) == "sms_" else {
+            doQuickReply()
+            return
+        }
+
+        var indexToBeRemoved = -1, i = -1
+        for item in pushHistory {
+            i += 1
+
+            guard item["type"].string == "sms_changed" else {
+                continue
+            }
+            let metadata = notification.identifier?.substring(from: index!).components(separatedBy: "|")
+            let thread_id = metadata![1], source_device_iden = metadata![0], timestamp = metadata![2]
+
+            for (_, sms):(String, JSON) in item["notifications"] {
+                guard (sms["thread_id"].string! == thread_id && String(sms["timestamp"].int!) == timestamp) else {
+                    continue
+                }
+                ephemerals.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
+                indexToBeRemoved = i
+                break
+            }
+
+            if (indexToBeRemoved != -1) {
+                break
+            }
+        }
+        if (indexToBeRemoved != -1) {
+            pushHistory.remove(at: indexToBeRemoved)
+        }
     }
 }

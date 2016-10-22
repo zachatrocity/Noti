@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		162B919FE4321ED9BC86AD09 /* Pods_Noti.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C7615AF577BAEAF32B8516 /* Pods_Noti.framework */; };
-		1DB24DA01DBC01D200401149 /* Ephemerals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24D9E1DBC01D200401149 /* Ephemerals.swift */; };
 		1DB24DA11DBC01D200401149 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24D9F1DBC01D200401149 /* RoundedImage.swift */; };
 		1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */; };
 		1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA41DBC01E500401149 /* PushManager.swift */; };
@@ -17,6 +16,9 @@
 		1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAB1DBC020D00401149 /* IntroViewController.swift */; };
 		1DB24DB11DBC021600401149 /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAE1DBC021600401149 /* Crypt.swift */; };
 		1DB24DB21DBC021600401149 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DB01DBC021600401149 /* SwCrypt.swift */; };
+		1DF180721DBC12AA00B125E1 /* Ephemerals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180711DBC12AA00B125E1 /* Ephemerals.swift */; };
+		1DF180741DBC15C200B125E1 /* SmsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180731DBC15C200B125E1 /* SmsService.swift */; };
+		1DF180761DBC1B1F00B125E1 /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180751DBC1B1F00B125E1 /* DeviceService.swift */; };
 		499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 499DD0F51D2ACA0B00BB759D /* .gitignore */; };
 		49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */; };
 		49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B111D1ADFB200A24585 /* Main.storyboard */; };
@@ -25,7 +27,6 @@
 
 /* Begin PBXFileReference section */
 		0F7FEC6A353CB04118DDEBF6 /* Pods-Noti.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Noti.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Noti/Pods-Noti.debug.xcconfig"; sourceTree = "<group>"; };
-		1DB24D9E1DBC01D200401149 /* Ephemerals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ephemerals.swift; path = Utils/Ephemerals.swift; sourceTree = "<group>"; };
 		1DB24D9F1DBC01D200401149 /* RoundedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundedImage.swift; path = Utils/RoundedImage.swift; sourceTree = "<group>"; };
 		1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusMenuController.swift; path = StatusBar/StatusMenuController.swift; sourceTree = "<group>"; };
 		1DB24DA41DBC01E500401149 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushManager.swift; path = Services/PushManager.swift; sourceTree = "<group>"; };
@@ -36,6 +37,9 @@
 		1DB24DAE1DBC021600401149 /* Crypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Crypt.swift; path = Encryption/Crypt.swift; sourceTree = "<group>"; };
 		1DB24DAF1DBC021600401149 /* SwCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwCrypt.h; path = Encryption/SwCrypt.h; sourceTree = "<group>"; };
 		1DB24DB01DBC021600401149 /* SwCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwCrypt.swift; path = Encryption/SwCrypt.swift; sourceTree = "<group>"; };
+		1DF180711DBC12AA00B125E1 /* Ephemerals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ephemerals.swift; path = Services/Ephemerals.swift; sourceTree = "<group>"; };
+		1DF180731DBC15C200B125E1 /* SmsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SmsService.swift; path = Services/SmsService.swift; sourceTree = "<group>"; };
+		1DF180751DBC1B1F00B125E1 /* DeviceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceService.swift; path = Services/DeviceService.swift; sourceTree = "<group>"; };
 		499DD0F51D2ACA0B00BB759D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		49B43B081D1ADFB200A24585 /* Noti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Noti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,7 +93,10 @@
 		1DB24D9A1DBC007000401149 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1DF180711DBC12AA00B125E1 /* Ephemerals.swift */,
 				1DB24DA41DBC01E500401149 /* PushManager.swift */,
+				1DF180731DBC15C200B125E1 /* SmsService.swift */,
+				1DF180751DBC1B1F00B125E1 /* DeviceService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -112,7 +119,6 @@
 		1DB24D9D1DBC010400401149 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				1DB24D9E1DBC01D200401149 /* Ephemerals.swift */,
 				1DB24D9F1DBC01D200401149 /* RoundedImage.swift */,
 			);
 			name = Utils;
@@ -298,9 +304,11 @@
 				1DB24DB21DBC021600401149 /* SwCrypt.swift in Sources */,
 				1DB24DB11DBC021600401149 /* Crypt.swift in Sources */,
 				1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */,
-				1DB24DA01DBC01D200401149 /* Ephemerals.swift in Sources */,
+				1DF180741DBC15C200B125E1 /* SmsService.swift in Sources */,
+				1DF180761DBC1B1F00B125E1 /* DeviceService.swift in Sources */,
 				1DB24DA11DBC01D200401149 /* RoundedImage.swift in Sources */,
 				1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */,
+				1DF180721DBC12AA00B125E1 /* Ephemerals.swift in Sources */,
 				1DB24DAC1DBC020D00401149 /* AuthViewController.swift in Sources */,
 				1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */,
 				49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */,
