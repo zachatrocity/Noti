@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16B2553a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
         <plugIn identifier="com.apple.WebKitIBPlugin" version="10117"/>
@@ -710,7 +710,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <visualEffectView appearanceType="vibrantDark" ambiguous="YES" blendingMode="behindWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="Nm4-Q9-JOU">
+                            <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="Nm4-Q9-JOU">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gKn-aD-15h">
@@ -761,6 +761,8 @@ Whenever your devices have something to say, I'll let you know!</string>
                             </visualEffectView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Nm4-Q9-JOU" firstAttribute="top" secondItem="fvT-Pe-DFf" secondAttribute="top" id="Gu4-f0-dUP"/>
+                            <constraint firstItem="Nm4-Q9-JOU" firstAttribute="leading" secondItem="fvT-Pe-DFf" secondAttribute="leading" id="O66-jW-1Ox"/>
                             <constraint firstItem="Nm4-Q9-JOU" firstAttribute="width" secondItem="fvT-Pe-DFf" secondAttribute="width" id="fyQ-h5-dp1"/>
                             <constraint firstItem="Nm4-Q9-JOU" firstAttribute="height" secondItem="fvT-Pe-DFf" secondAttribute="height" id="zoW-bv-13S"/>
                         </constraints>

@@ -8,38 +8,39 @@
 
 /* Begin PBXBuildFile section */
 		162B919FE4321ED9BC86AD09 /* Pods_Noti.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C7615AF577BAEAF32B8516 /* Pods_Noti.framework */; };
-		4901D3CF1D1C121D005F1641 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4901D3CE1D1C121D005F1641 /* StatusMenuController.swift */; };
-		4901D3D31D23E6AB005F1641 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4901D3D21D23E6AB005F1641 /* IntroViewController.swift */; };
-		498275F21D35101A00AB7029 /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498275F11D35101A00AB7029 /* Crypt.swift */; };
-		498275FB1D3567D500AB7029 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498275FA1D3567D500AB7029 /* SwCrypt.swift */; };
-		498499FE1D1BE46F007FC963 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498499FD1D1BE46F007FC963 /* PushManager.swift */; };
+		1DB24DA01DBC01D200401149 /* Ephemerals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24D9E1DBC01D200401149 /* Ephemerals.swift */; };
+		1DB24DA11DBC01D200401149 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24D9F1DBC01D200401149 /* RoundedImage.swift */; };
+		1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */; };
+		1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA41DBC01E500401149 /* PushManager.swift */; };
+		1DB24DA81DBC01FF00401149 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24DA61DBC01FF00401149 /* Assets.xcassets */; };
+		1DB24DA91DBC01FF00401149 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24DA71DBC01FF00401149 /* Info.plist */; };
+		1DB24DAC1DBC020D00401149 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAA1DBC020D00401149 /* AuthViewController.swift */; };
+		1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAB1DBC020D00401149 /* IntroViewController.swift */; };
+		1DB24DB11DBC021600401149 /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAE1DBC021600401149 /* Crypt.swift */; };
+		1DB24DB21DBC021600401149 /* SwCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DB01DBC021600401149 /* SwCrypt.swift */; };
 		499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 499DD0F51D2ACA0B00BB759D /* .gitignore */; };
-		499DD0F81D2D7BBF00BB759D /* Ephemerals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499DD0F71D2D7BBF00BB759D /* Ephemerals.swift */; };
-		499DD0FC1D2D8FAC00BB759D /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499DD0FB1D2D8FAC00BB759D /* RoundedImage.swift */; };
 		49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */; };
-		49B43B0E1D1ADFB200A24585 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B43B0D1D1ADFB200A24585 /* AuthViewController.swift */; };
-		49B43B101D1ADFB200A24585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B0F1D1ADFB200A24585 /* Assets.xcassets */; };
 		49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B111D1ADFB200A24585 /* Main.storyboard */; };
 		49B43B1B1D1AE0F200A24585 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B1A1D1AE0F200A24585 /* Podfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F7FEC6A353CB04118DDEBF6 /* Pods-Noti.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Noti.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Noti/Pods-Noti.debug.xcconfig"; sourceTree = "<group>"; };
-		4901D3CE1D1C121D005F1641 /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
-		4901D3D21D23E6AB005F1641 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		498275F11D35101A00AB7029 /* Crypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypt.swift; sourceTree = "<group>"; };
-		498275F91D3567D500AB7029 /* SwCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCrypt.h; sourceTree = "<group>"; };
-		498275FA1D3567D500AB7029 /* SwCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwCrypt.swift; sourceTree = "<group>"; };
-		498499FD1D1BE46F007FC963 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
+		1DB24D9E1DBC01D200401149 /* Ephemerals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ephemerals.swift; path = Utils/Ephemerals.swift; sourceTree = "<group>"; };
+		1DB24D9F1DBC01D200401149 /* RoundedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundedImage.swift; path = Utils/RoundedImage.swift; sourceTree = "<group>"; };
+		1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusMenuController.swift; path = StatusBar/StatusMenuController.swift; sourceTree = "<group>"; };
+		1DB24DA41DBC01E500401149 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushManager.swift; path = Services/PushManager.swift; sourceTree = "<group>"; };
+		1DB24DA61DBC01FF00401149 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		1DB24DA71DBC01FF00401149 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		1DB24DAA1DBC020D00401149 /* AuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthViewController.swift; path = Login/AuthViewController.swift; sourceTree = "<group>"; };
+		1DB24DAB1DBC020D00401149 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntroViewController.swift; path = Login/IntroViewController.swift; sourceTree = "<group>"; };
+		1DB24DAE1DBC021600401149 /* Crypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Crypt.swift; path = Encryption/Crypt.swift; sourceTree = "<group>"; };
+		1DB24DAF1DBC021600401149 /* SwCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwCrypt.h; path = Encryption/SwCrypt.h; sourceTree = "<group>"; };
+		1DB24DB01DBC021600401149 /* SwCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwCrypt.swift; path = Encryption/SwCrypt.swift; sourceTree = "<group>"; };
 		499DD0F51D2ACA0B00BB759D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		499DD0F71D2D7BBF00BB759D /* Ephemerals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemerals.swift; sourceTree = "<group>"; };
-		499DD0FB1D2D8FAC00BB759D /* RoundedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
 		49B43B081D1ADFB200A24585 /* Noti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Noti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		49B43B0D1D1ADFB200A24585 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		49B43B0F1D1ADFB200A24585 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49B43B121D1ADFB200A24585 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		49B43B141D1ADFB200A24585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49B43B1A1D1AE0F200A24585 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6B7FFCDDDAD1689D9A4BE578 /* Pods-Noti.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Noti.release.xcconfig"; path = "Pods/Target Support Files/Pods-Noti/Pods-Noti.release.xcconfig"; sourceTree = "<group>"; };
 		B2C7615AF577BAEAF32B8516 /* Pods_Noti.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Noti.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,15 +58,76 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DB24D971DBBFFC500401149 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24DAA1DBC020D00401149 /* AuthViewController.swift */,
+				1DB24DAB1DBC020D00401149 /* IntroViewController.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		1DB24D981DBBFFF900401149 /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24DAE1DBC021600401149 /* Crypt.swift */,
+				1DB24DAF1DBC021600401149 /* SwCrypt.h */,
+				1DB24DB01DBC021600401149 /* SwCrypt.swift */,
+			);
+			name = Encryption;
+			sourceTree = "<group>";
+		};
+		1DB24D991DBC001900401149 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24DA61DBC01FF00401149 /* Assets.xcassets */,
+				1DB24DA71DBC01FF00401149 /* Info.plist */,
+				49B43B111D1ADFB200A24585 /* Main.storyboard */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1DB24D9A1DBC007000401149 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24DA41DBC01E500401149 /* PushManager.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		1DB24D9B1DBC00D000401149 /* StatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */,
+			);
+			name = StatusBar;
+			sourceTree = "<group>";
+		};
+		1DB24D9C1DBC00EF00401149 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Messaging;
+			sourceTree = "<group>";
+		};
+		1DB24D9D1DBC010400401149 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1DB24D9E1DBC01D200401149 /* Ephemerals.swift */,
+				1DB24D9F1DBC01D200401149 /* RoundedImage.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		49B43AFF1D1ADFB100A24585 = {
 			isa = PBXGroup;
 			children = (
-				499DD0F51D2ACA0B00BB759D /* .gitignore */,
-				49B43B1A1D1AE0F200A24585 /* Podfile */,
 				49B43B0A1D1ADFB200A24585 /* Noti */,
 				49B43B091D1ADFB200A24585 /* Products */,
 				D0EECD8F29ED53BD727C95F8 /* Pods */,
 				5BAC699C03C9C573FDF4B2D8 /* Frameworks */,
+				499DD0F51D2ACA0B00BB759D /* .gitignore */,
+				49B43B1A1D1AE0F200A24585 /* Podfile */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,19 +142,14 @@
 		49B43B0A1D1ADFB200A24585 /* Noti */ = {
 			isa = PBXGroup;
 			children = (
-				498275F91D3567D500AB7029 /* SwCrypt.h */,
-				498275FA1D3567D500AB7029 /* SwCrypt.swift */,
+				1DB24D981DBBFFF900401149 /* Encryption */,
+				1DB24D971DBBFFC500401149 /* Login */,
+				1DB24D9C1DBC00EF00401149 /* Messaging */,
+				1DB24D991DBC001900401149 /* Resources */,
+				1DB24D9A1DBC007000401149 /* Services */,
+				1DB24D9B1DBC00D000401149 /* StatusBar */,
+				1DB24D9D1DBC010400401149 /* Utils */,
 				49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */,
-				49B43B0D1D1ADFB200A24585 /* AuthViewController.swift */,
-				49B43B0F1D1ADFB200A24585 /* Assets.xcassets */,
-				49B43B111D1ADFB200A24585 /* Main.storyboard */,
-				4901D3D21D23E6AB005F1641 /* IntroViewController.swift */,
-				49B43B141D1ADFB200A24585 /* Info.plist */,
-				498499FD1D1BE46F007FC963 /* PushManager.swift */,
-				4901D3CE1D1C121D005F1641 /* StatusMenuController.swift */,
-				499DD0F71D2D7BBF00BB759D /* Ephemerals.swift */,
-				499DD0FB1D2D8FAC00BB759D /* RoundedImage.swift */,
-				498275F11D35101A00AB7029 /* Crypt.swift */,
 			);
 			path = Noti;
 			sourceTree = "<group>";
@@ -178,7 +235,8 @@
 			files = (
 				499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */,
 				49B43B1B1D1AE0F200A24585 /* Podfile in Resources */,
-				49B43B101D1ADFB200A24585 /* Assets.xcassets in Resources */,
+				1DB24DA81DBC01FF00401149 /* Assets.xcassets in Resources */,
+				1DB24DA91DBC01FF00401149 /* Info.plist in Resources */,
 				49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,15 +296,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				498275FB1D3567D500AB7029 /* SwCrypt.swift in Sources */,
-				4901D3D31D23E6AB005F1641 /* IntroViewController.swift in Sources */,
-				499DD0FC1D2D8FAC00BB759D /* RoundedImage.swift in Sources */,
-				498499FE1D1BE46F007FC963 /* PushManager.swift in Sources */,
-				49B43B0E1D1ADFB200A24585 /* AuthViewController.swift in Sources */,
-				4901D3CF1D1C121D005F1641 /* StatusMenuController.swift in Sources */,
+				1DB24DB21DBC021600401149 /* SwCrypt.swift in Sources */,
+				1DB24DB11DBC021600401149 /* Crypt.swift in Sources */,
+				1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */,
+				1DB24DA01DBC01D200401149 /* Ephemerals.swift in Sources */,
+				1DB24DA11DBC01D200401149 /* RoundedImage.swift in Sources */,
+				1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */,
+				1DB24DAC1DBC020D00401149 /* AuthViewController.swift in Sources */,
+				1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */,
 				49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */,
-				499DD0F81D2D7BBF00BB759D /* Ephemerals.swift in Sources */,
-				498275F21D35101A00AB7029 /* Crypt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +411,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Noti/Info.plist;
+				INFOPLIST_FILE = Noti/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = io.jari.Noti;
@@ -368,7 +426,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Noti/Info.plist;
+				INFOPLIST_FILE = Noti/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = io.jari.Noti;
