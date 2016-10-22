@@ -13,11 +13,11 @@ import Starscream
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var pushManager: PushManager?
-    let userDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults: UserDefaults = UserDefaults.standard
     var iwc:NSWindowController?;
     
     func loadPushManager() {
-        let token = userDefaults.stringForKey("token")
+        let token = userDefaults.string(forKey: "token")
         
         if(token != nil) {
             pushManager = PushManager(token: token!)
@@ -29,18 +29,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
             let storyboard = NSStoryboard(name: "Main", bundle: nil)
-            iwc = storyboard.instantiateControllerWithIdentifier("IntroWindowController") as? NSWindowController
-            NSApplication.sharedApplication().activateIgnoringOtherApps(true)
+            iwc = storyboard.instantiateController(withIdentifier: "IntroWindowController") as? NSWindowController
+            NSApplication.shared().activate(ignoringOtherApps: true)
             iwc!.showWindow(self)
             iwc!.window?.makeKeyAndOrderFront(self)
         }
     }
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         loadPushManager()
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
