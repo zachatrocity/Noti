@@ -10,7 +10,7 @@ import Foundation
 import CryptoSwift
 
 open class Crypt {
-    var key: [UInt8];
+    var key: [UInt8]
     
     init(key: [UInt8]) {
         self.key = key

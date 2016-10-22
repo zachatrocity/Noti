@@ -48,7 +48,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
     init(token: String) {
         self.token = token
         self.socket = WebSocket(url: URL(string: "wss://stream.pushbullet.com/websocket/" + token)!)
-        self.ephemerals = Ephemerals(token: token);
+        self.ephemerals = Ephemerals(token: token)
         self.userState = "Initializing..."
         super.init()
         
@@ -107,7 +107,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
         
         let headers = [
             "Access-Token": token
-        ];
+        ]
         
         Alamofire.request("https://api.pushbullet.com/v2/users/me", method: .get, headers: headers)
             .responseString { response in
@@ -161,11 +161,11 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                     if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
                         if let actions = item["actions"].array {
                             ephemerals.dismissPush(item, trigger_key: actions[alternateAction]["trigger_key"].string!)
-                            break;
+                            break
                         }
                     }
                 }
-                break;
+                break
             case .contentsClicked:
                 //check if this is the encryption warning notification
                 if notification.identifier?.characters.count > 12 {
@@ -194,23 +194,23 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                 for item in pushHistory {
                     if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
                         ephemerals.dismissPush(item, trigger_key: nil)
-                        break;
+                        break
                     }
                 }
                 
-                break;
+                break
             
             case .replied:
                 let body = notification.response?.string
                 
                 func doQuickReply() {
-                    var indexToBeRemoved = -1, i = -1;
+                    var indexToBeRemoved = -1, i = -1
                     for item in pushHistory {
-                        i += 1;
+                        i += 1
                         if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                            ephemerals.quickReply(item, reply: body!);
-                            indexToBeRemoved = i;
-                            break;
+                            ephemerals.quickReply(item, reply: body!)
+                            indexToBeRemoved = i
+                            break
                         }
                     }
                     if(indexToBeRemoved != -1) {
@@ -222,23 +222,23 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                 if notification.identifier?.characters.count > 4 {
                     let index = notification.identifier?.characters.index((notification.identifier?.startIndex)!, offsetBy: 4)
                     if notification.identifier?.substring(to: index!) == "sms_" {
-                        var indexToBeRemoved = -1, i = -1;
+                        var indexToBeRemoved = -1, i = -1
                         for item in pushHistory {
-                            i += 1;
+                            i += 1
                             if item["type"].string == "sms_changed" {
                                 let metadata = notification.identifier?.substring(from: index!).components(separatedBy: "|")
                                 let thread_id = metadata![1], source_device_iden = metadata![0], timestamp = metadata![2]
                                 
                                 for (_, sms):(String, JSON) in item["notifications"] {
                                     if(sms["thread_id"].string! == thread_id && String(sms["timestamp"].int!) == timestamp) {
-                                        ephemerals.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!);
+                                        ephemerals.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
                                         indexToBeRemoved = i
-                                        break;
+                                        break
                                     }
                                 }
                                 
                                 if(indexToBeRemoved != -1) {
-                                    break;
+                                    break
                                 }
                             }
                         }
@@ -252,10 +252,10 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                     doQuickReply()
                 }
                 
-            break;
+            break
         default:
             print("did not understand activation type", notification.activationType.rawValue)
-            break;
+            break
         }
     }
     
@@ -282,7 +282,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
         print("PushManager", "Is disconnected: \(error?.localizedDescription)")
         
         if(!self.killed) {
-            print("Reconnecting in 5 sec");
+            print("Reconnecting in 5 sec")
             if error != nil {
                 setState("Disconnected: \(error!.localizedDescription), retrying...", disabled: true)
             }
@@ -332,7 +332,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
     internal func websocketDidReceiveMessage(socket: WebSocket, text: String) {
         print("PushManager", "receive", text)
         
-        var message = JSON.parse(text);
+        var message = JSON.parse(text)
         
         if let type = message["type"].string {
             switch type {
@@ -343,9 +343,9 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                         getUserInfo(nil)
                     }
                 }
-                break;
+                break
             case "push":
-                let push = message["push"];
+                let push = message["push"]
                 pushHistory.append(push)
                 
                 if push["encrypted"].exists() && push["encrypted"].bool! {
@@ -417,7 +417,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                         notification.soundName = NSUserNotificationDefaultSoundName
                         
                         center.deliver(notification)
-                        break;
+                        break
                     case "dismissal":
                         //loop through current user notifications, if identifier matches, remove it
                         for noti in center.deliveredNotifications {
@@ -438,7 +438,7 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                             pushHistory.remove(at: indexToBeRemoved)
                         }
                         
-                        break;
+                        break
                     case "sms_changed":
                         if push["notifications"].exists() {
                             for sms in push["notifications"].array! {
@@ -464,16 +464,16 @@ class PushManager: NSObject, WebSocketDelegate, NSUserNotificationCenterDelegate
                                 }
                             }
                         }
-                        break;
+                        break
                     default:
                         print("Unknown type of push", pushType)
-                        break;
+                        break
                     }
                 }
-                break;
+                break
             default:
                 print("Unknown type of message ", message["type"].string)
-                break;
+                break
             }
         }
         

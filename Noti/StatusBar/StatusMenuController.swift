@@ -20,7 +20,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
         
         if let button = statusItem.button {
             button.image = NSImage(named: "StatusBarButtonImage")
-            statusItem.menu = menu;
+            statusItem.menu = menu
         }
         statusItem.button?.appearsDisabled = true
         menuItem.isEnabled = true
@@ -56,7 +56,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     @IBAction func reauthorize(_ sender: AnyObject?) {
         //delete token & restart push manager
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
-        appDelegate.userDefaults.removeObject(forKey: "token")
+        UserDefaults.standard.removeObject(forKey: "token")
         appDelegate.loadPushManager()
     }
     

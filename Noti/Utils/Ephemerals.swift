@@ -26,7 +26,7 @@ class Ephemerals: NSObject {
         var body = body
         let headers = [
             "Access-Token": token
-        ];
+        ]
         
         if crypt != nil && body["type"] as? String == "push" {
             print("Encrypting ephemeral...")
@@ -83,7 +83,7 @@ class Ephemerals: NSObject {
         
         let headers = [
             "Authorization": "Bearer " + APIkey
-        ];
+        ]
         
         //get thread recipients & send reply to them
         let body = [
@@ -138,7 +138,7 @@ class Ephemerals: NSObject {
                 "conversation_iden": push["conversation_iden"].string!,
                 "message": reply
             ]
-        ];
+        ]
         
         sendEphemeral(body)
     }
@@ -152,7 +152,7 @@ class Ephemerals: NSObject {
                 "source_user_iden": push["source_user_iden"].string!,
                 "type": "dismissal"
             ]
-        ];
+        ]
         
         if (trigger_key != nil) {
             var push = body["push"] as! [String: String]

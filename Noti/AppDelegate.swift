@@ -12,12 +12,11 @@ import Starscream
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    var pushManager: PushManager?
-    let userDefaults: UserDefaults = UserDefaults.standard
-    var iwc:NSWindowController?;
+    private(set) var pushManager: PushManager?
+    private var iwc: NSWindowController?
     
     func loadPushManager() {
-        let token = userDefaults.string(forKey: "token")
+        let token = UserDefaults.standard.string(forKey: "token")
         
         if(token != nil) {
             pushManager = PushManager(token: token!)
