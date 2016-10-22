@@ -13,7 +13,6 @@
 		1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */; };
 		1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA41DBC01E500401149 /* PushManager.swift */; };
 		1DB24DA81DBC01FF00401149 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24DA61DBC01FF00401149 /* Assets.xcassets */; };
-		1DB24DA91DBC01FF00401149 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24DA71DBC01FF00401149 /* Info.plist */; };
 		1DB24DAC1DBC020D00401149 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAA1DBC020D00401149 /* AuthViewController.swift */; };
 		1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAB1DBC020D00401149 /* IntroViewController.swift */; };
 		1DB24DB11DBC021600401149 /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DAE1DBC021600401149 /* Crypt.swift */; };
@@ -201,7 +200,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Oberon;
 				TargetAttributes = {
 					49B43B071D1ADFB200A24585 = {
@@ -237,7 +236,6 @@
 				499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */,
 				49B43B1B1D1AE0F200A24585 /* Podfile in Resources */,
 				1DB24DA81DBC01FF00401149 /* Assets.xcassets in Resources */,
-				1DB24DA91DBC01FF00401149 /* Info.plist in Resources */,
 				49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,8 +335,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -382,8 +382,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -402,6 +404,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -409,6 +412,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0F7FEC6A353CB04118DDEBF6 /* Pods-Noti.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -424,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6B7FFCDDDAD1689D9A4BE578 /* Pods-Noti.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
