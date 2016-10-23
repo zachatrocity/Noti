@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		162B919FE4321ED9BC86AD09 /* Pods_Noti.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C7615AF577BAEAF32B8516 /* Pods_Noti.framework */; };
+		1D4775B21DBC3F8E00578E30 /* ThreadCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4775B01DBC3F8E00578E30 /* ThreadCollectionViewItem.swift */; };
+		1D4775B31DBC3F8E00578E30 /* ThreadCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D4775B11DBC3F8E00578E30 /* ThreadCollectionViewItem.xib */; };
 		1DB24DA11DBC01D200401149 /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24D9F1DBC01D200401149 /* RoundedImage.swift */; };
 		1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */; };
 		1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24DA41DBC01E500401149 /* PushManager.swift */; };
@@ -19,6 +21,10 @@
 		1DF180721DBC12AA00B125E1 /* Ephemerals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180711DBC12AA00B125E1 /* Ephemerals.swift */; };
 		1DF180741DBC15C200B125E1 /* SmsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180731DBC15C200B125E1 /* SmsService.swift */; };
 		1DF180761DBC1B1F00B125E1 /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF180751DBC1B1F00B125E1 /* DeviceService.swift */; };
+		1DF1807D1DBC301E00B125E1 /* ThreadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF1807B1DBC301E00B125E1 /* ThreadsViewController.swift */; };
+		1DF1807E1DBC301E00B125E1 /* ThreadsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF1807C1DBC301E00B125E1 /* ThreadsViewController.xib */; };
+		1DF180811DBC39BB00B125E1 /* MessagingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF1807F1DBC39BB00B125E1 /* MessagingWindow.swift */; };
+		1DF180821DBC39BB00B125E1 /* MessagingWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF180801DBC39BB00B125E1 /* MessagingWindow.xib */; };
 		499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 499DD0F51D2ACA0B00BB759D /* .gitignore */; };
 		49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */; };
 		49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B111D1ADFB200A24585 /* Main.storyboard */; };
@@ -27,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		0F7FEC6A353CB04118DDEBF6 /* Pods-Noti.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Noti.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Noti/Pods-Noti.debug.xcconfig"; sourceTree = "<group>"; };
+		1D4775B01DBC3F8E00578E30 /* ThreadCollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThreadCollectionViewItem.swift; path = Messaging/ThreadCollectionViewItem.swift; sourceTree = "<group>"; };
+		1D4775B11DBC3F8E00578E30 /* ThreadCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThreadCollectionViewItem.xib; path = Messaging/ThreadCollectionViewItem.xib; sourceTree = "<group>"; };
 		1DB24D9F1DBC01D200401149 /* RoundedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundedImage.swift; path = Utils/RoundedImage.swift; sourceTree = "<group>"; };
 		1DB24DA21DBC01DE00401149 /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusMenuController.swift; path = StatusBar/StatusMenuController.swift; sourceTree = "<group>"; };
 		1DB24DA41DBC01E500401149 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushManager.swift; path = Services/PushManager.swift; sourceTree = "<group>"; };
@@ -40,6 +48,10 @@
 		1DF180711DBC12AA00B125E1 /* Ephemerals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ephemerals.swift; path = Services/Ephemerals.swift; sourceTree = "<group>"; };
 		1DF180731DBC15C200B125E1 /* SmsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SmsService.swift; path = Services/SmsService.swift; sourceTree = "<group>"; };
 		1DF180751DBC1B1F00B125E1 /* DeviceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceService.swift; path = Services/DeviceService.swift; sourceTree = "<group>"; };
+		1DF1807B1DBC301E00B125E1 /* ThreadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThreadsViewController.swift; path = Messaging/ThreadsViewController.swift; sourceTree = "<group>"; };
+		1DF1807C1DBC301E00B125E1 /* ThreadsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThreadsViewController.xib; path = Messaging/ThreadsViewController.xib; sourceTree = "<group>"; };
+		1DF1807F1DBC39BB00B125E1 /* MessagingWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagingWindow.swift; path = Messaging/MessagingWindow.swift; sourceTree = "<group>"; };
+		1DF180801DBC39BB00B125E1 /* MessagingWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessagingWindow.xib; path = Messaging/MessagingWindow.xib; sourceTree = "<group>"; };
 		499DD0F51D2ACA0B00BB759D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		49B43B081D1ADFB200A24585 /* Noti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Noti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,10 +105,10 @@
 		1DB24D9A1DBC007000401149 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1DF180751DBC1B1F00B125E1 /* DeviceService.swift */,
 				1DF180711DBC12AA00B125E1 /* Ephemerals.swift */,
 				1DB24DA41DBC01E500401149 /* PushManager.swift */,
 				1DF180731DBC15C200B125E1 /* SmsService.swift */,
-				1DF180751DBC1B1F00B125E1 /* DeviceService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -112,6 +124,12 @@
 		1DB24D9C1DBC00EF00401149 /* Messaging */ = {
 			isa = PBXGroup;
 			children = (
+				1DF1807B1DBC301E00B125E1 /* ThreadsViewController.swift */,
+				1DF1807C1DBC301E00B125E1 /* ThreadsViewController.xib */,
+				1DF1807F1DBC39BB00B125E1 /* MessagingWindow.swift */,
+				1DF180801DBC39BB00B125E1 /* MessagingWindow.xib */,
+				1D4775B01DBC3F8E00578E30 /* ThreadCollectionViewItem.swift */,
+				1D4775B11DBC3F8E00578E30 /* ThreadCollectionViewItem.xib */,
 			);
 			name = Messaging;
 			sourceTree = "<group>";
@@ -240,9 +258,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */,
+				1DF1807E1DBC301E00B125E1 /* ThreadsViewController.xib in Resources */,
+				1DF180821DBC39BB00B125E1 /* MessagingWindow.xib in Resources */,
 				49B43B1B1D1AE0F200A24585 /* Podfile in Resources */,
 				1DB24DA81DBC01FF00401149 /* Assets.xcassets in Resources */,
 				49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */,
+				1D4775B31DBC3F8E00578E30 /* ThreadCollectionViewItem.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,8 +322,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DF1807D1DBC301E00B125E1 /* ThreadsViewController.swift in Sources */,
 				1DB24DB21DBC021600401149 /* SwCrypt.swift in Sources */,
 				1DB24DB11DBC021600401149 /* Crypt.swift in Sources */,
+				1DF180811DBC39BB00B125E1 /* MessagingWindow.swift in Sources */,
 				1DB24DAD1DBC020D00401149 /* IntroViewController.swift in Sources */,
 				1DF180741DBC15C200B125E1 /* SmsService.swift in Sources */,
 				1DF180761DBC1B1F00B125E1 /* DeviceService.swift in Sources */,
@@ -310,6 +333,7 @@
 				1DB24DA31DBC01DE00401149 /* StatusMenuController.swift in Sources */,
 				1DF180721DBC12AA00B125E1 /* Ephemerals.swift in Sources */,
 				1DB24DAC1DBC020D00401149 /* AuthViewController.swift in Sources */,
+				1D4775B21DBC3F8E00578E30 /* ThreadCollectionViewItem.swift in Sources */,
 				1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */,
 				49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */,
 			);

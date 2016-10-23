@@ -26,15 +26,9 @@ class DeviceService {
                     // TODO error
                     return
                 }
-                let devices = devicesJson.map({ json -> Device in
-                    return Device(
-                        id: json["iden"].stringValue,
-                        name: json["nickname"].stringValue,
-                        hasSms: json["has_sms"].boolValue
-                    )
-                }).filter({ device -> Bool in
-                    device.hasSms
-                })
+                let devices = devicesJson
+                    .map { Device(json: $0) }
+                    .filter { $0.hasSms }
                 callback(devices)
         }
     }
@@ -44,4 +38,10 @@ struct Device {
     let id: String
     let name: String
     let hasSms: Bool
+
+    init(json: JSON) {
+        id = json["iden"].stringValue
+        name = json["nickname"].stringValue
+        hasSms = json["has_sms"].boolValue
+    }
 }

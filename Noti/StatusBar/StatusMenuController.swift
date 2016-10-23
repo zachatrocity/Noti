@@ -52,6 +52,29 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
             }
         }
     }
+
+    @IBAction func openSms(_ sender: AnyObject?) {
+        let token = UserDefaults.standard.string(forKey: "token")
+
+        if let token = token {
+            let deviceService = DeviceService(token: token)
+            deviceService.fetchDevices(callback: { devices in
+                guard let device = devices.first else {
+                    print("No devices with SMS found")
+                    return
+                }
+                let smsService = SmsService(token: token, deviceId: device.id)
+                let window = MessagingWindow(windowNibName: "MessagingWindow")
+                window.setup(smsService: smsService)
+
+                (NSApplication.shared().delegate as! AppDelegate).messagingWindow = window
+
+                NSApplication.shared().activate(ignoringOtherApps: true)
+                window.showWindow(self)
+                window.window?.makeKeyAndOrderFront(self)
+            })
+        }
+    }
     
     @IBAction func reauthorize(_ sender: AnyObject?) {
         //delete token & restart push manager
