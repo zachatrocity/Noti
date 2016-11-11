@@ -13,7 +13,7 @@ class MessagingWindow: NSWindowController {
     var threadVc: ThreadsViewController?
 
     func setup(smsService: SmsService) {
-        self.threadVc = ThreadsViewController(smsService: smsService)
+        self.threadVc = ThreadsViewController(smsService: smsService, parentVc: nil)
         self.contentViewController = threadVc
     }
 

@@ -343,7 +343,7 @@ class PushManager: NSObject, WebSocketDelegate {
             case "push":
                 self.receivedPush(socket: socket, message: message)
             default:
-                print("Unknown type of message ", message["type"].string)
+                print("Unknown type of message ", message["type"].string ?? "(null)")
             }
         }
 

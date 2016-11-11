@@ -37,11 +37,11 @@ class SmsService {
         }
     }
 
-    private func fetchThreadMessages(threadId: String) {
+    func fetchThreadMessages(threadId: String, callback: @escaping (([Message]) -> Void)) {
         let headers = [
             "Access-Token": token
         ]
-        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(deviceId)_threads\(threadId)", method: .get, headers: headers)
+        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(deviceId)_thread_\(threadId)", method: .get, headers: headers)
             .responseString { response in
                 guard
                     let string = response.result.value,
@@ -50,7 +50,7 @@ class SmsService {
                         return
                 }
                 let messages = json.map { Message(json: $0) }
-                print(messages)
+                callback(messages)
         }
     }
 

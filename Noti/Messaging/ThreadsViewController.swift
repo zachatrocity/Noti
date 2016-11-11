@@ -10,17 +10,22 @@ import Cocoa
 
 class ThreadsViewController: NSViewController {
 
-    @IBOutlet private var collectionView: NSCollectionView!
+    @IBOutlet fileprivate var tableView: NSTableView!
 
-    private let smsService: SmsService
+    private let parentVc: NSViewController?
+
+    fileprivate let smsService: SmsService
+    
+    fileprivate var threadVc: ThreadViewController?
     fileprivate var threads = [ThreadPreview]() {
         didSet {
-            collectionView.reloadData()
+            tableView.reloadData()
         }
     }
 
-    init(smsService: SmsService) {
+    init(smsService: SmsService, parentVc: NSViewController?) {
         self.smsService = smsService
+        self.parentVc = parentVc
         super.init(nibName: nil, bundle: nil)!
     }
     
@@ -31,33 +36,35 @@ class ThreadsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.register(ThreadCollectionViewItem.self, forItemWithIdentifier: "Thread")
+        tableView.register(NSNib.init(nibNamed: "ThreadTableCellView", bundle: nil), forIdentifier: "ThreadCell")
 
         smsService.fetchThreads { [weak self] threads in
             self?.threads = threads
         }
     }
+
+    @IBAction func tappedBack(sender: Any?) {
+        self.view.window?.contentViewController = self.parentVc
+    }
     
 }
 
-extension ThreadsViewController: NSCollectionViewDelegate, NSCollectionViewDataSource {
+extension ThreadsViewController: NSTableViewDelegate, NSTableViewDataSource {
 
-    func numberOfSections(in collectionView: NSCollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return threads.count
     }
 
-    func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
-
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cell = tableView.make(withIdentifier: "ThreadCell", owner: nil) as! ThreadTableCellView
+        cell.label.stringValue = threads[row].recipients.first?.name ?? "Unknown"
+        return cell
     }
 
-    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        let item = collectionView.makeItem(withIdentifier: "Thread", for: indexPath) as! ThreadCollectionViewItem
-        item.label.stringValue = threads[indexPath.item].recipients.first?.name ?? "Unknown"
-        return item
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let threadId = threads[tableView.selectedRow].id
+        let threadVc = ThreadViewController(threadId: threadId, smsService: self.smsService, parentVc: self)
+        self.view.window?.contentViewController = threadVc
+        self.threadVc = threadVc
     }
-    
 }
