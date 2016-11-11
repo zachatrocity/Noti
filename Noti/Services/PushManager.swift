@@ -20,7 +20,7 @@ class PushManager: NSObject, WebSocketDelegate {
     var pushHistory = [JSON]()
     var userInfo:JSON?
     var token:String
-    var ephemerals:Ephemerals
+    let ephemeralService: EphemeralService
     var crypt:Crypt?
     var killed = false
     let userDefaults = UserDefaults.standard
@@ -29,7 +29,7 @@ class PushManager: NSObject, WebSocketDelegate {
     init(token: String) {
         self.token = token
         self.socket = WebSocket(url: URL(string: "wss://stream.pushbullet.com/websocket/" + token)!)
-        self.ephemerals = Ephemerals(token: token)
+        self.ephemeralService = EphemeralService(token: token)
         self.userState = "Initializing..."
         super.init()
         
@@ -64,7 +64,7 @@ class PushManager: NSObject, WebSocketDelegate {
             self.crypt = nil
             print("Encryption not enabled")
         }
-        self.ephemerals.crypt = self.crypt
+        self.ephemeralService.crypt = self.crypt
     }
     
     func setState(_ state: String, image: NSImage? = nil, disabled: Bool? = nil) {
@@ -383,7 +383,7 @@ extension PushManager: NSUserNotificationCenterDelegate {
         for item in pushHistory {
             if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
                 if let actions = item["actions"].array {
-                    ephemerals.dismissPush(item, trigger_key: actions[alternateAction]["trigger_key"].string!)
+                    ephemeralService.dismissPush(item, triggerKey: actions[alternateAction]["trigger_key"].string!)
                     break
                 }
             }
@@ -418,7 +418,7 @@ extension PushManager: NSUserNotificationCenterDelegate {
 
         for item in pushHistory {
             if item["notification_id"].string == notification.identifier && item["type"].string == "mirror" {
-                ephemerals.dismissPush(item, trigger_key: nil)
+                ephemeralService.dismissPush(item, triggerKey: nil)
                 break
             }
         }
@@ -434,7 +434,7 @@ extension PushManager: NSUserNotificationCenterDelegate {
                 guard item["notification_id"].string == notification.identifier && item["type"].string == "mirror" else {
                     continue
                 }
-                ephemerals.quickReply(item, reply: body!)
+                ephemeralService.quickReply(item, reply: body!)
                 indexToBeRemoved = i
                 break
             }
@@ -469,7 +469,7 @@ extension PushManager: NSUserNotificationCenterDelegate {
                 guard (sms["thread_id"].string! == thread_id && String(sms["timestamp"].int!) == timestamp) else {
                     continue
                 }
-                ephemerals.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
+                ephemeralService.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
                 indexToBeRemoved = i
                 break
             }

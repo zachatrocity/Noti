@@ -14,36 +14,35 @@ import Cocoa
 import Alamofire
 import SwiftyJSON
 
-class Ephemerals: NSObject {
+class EphemeralService {
+
     var token:String
     var crypt:Crypt?
     
     init(token:String) {
         self.token = token
     }
-    
-    private func sendEphemeral(_ body: [String: Any]) {
-        var body = body
-        let headers = [
-            "Access-Token": token
-        ]
-        
-        if crypt != nil && body["type"] as? String == "push" {
+
+    private func send(ephemeral: Ephemeral) {
+        var body = ephemeral.toJson()
+
+        if crypt != nil && ephemeral.type == "push" {
             print("Encrypting ephemeral...")
             let json = JSON.init(body)
-            
+
             let cipher = crypt!.encryptMessage(json["push"].rawString()!)
             body["push"] = [
                 "encrypted": true,
                 "ciphertext": cipher!
             ]
         }
-        
+
         print("Sending ephemeral...")
         print("-------- BODY --------")
         debugPrint(body)
         print("----------------------")
 
+        let headers = ["Access-Token": token]
         Alamofire.request("https://api.pushbullet.com/v2/ephemerals", method: .post, parameters: body, encoding: JSONEncoding.default, headers: headers)
             .responseString { response in
                 var result = JSON.parse(response.result.value!)
@@ -104,18 +103,15 @@ class Ephemerals: NSObject {
                     for thread in threads {
                         if thread["id"].string == thread_id {
                             for recipient in thread["recipients"].array! {
-                                let body: [String : Any] = [
-                                    "push": [
-                                        "conversation_iden": recipient["address"].string!,
-                                        "message": message,
-                                        "package_name": "com.pushbullet.android",
-                                        "source_user_iden": source_user_iden,
-                                        "target_device_iden": source_device_iden,
-                                        "type": "messaging_extension_reply"
-                                    ],
-                                    "type": "push"
-                                ]
-                                self.sendEphemeral(body)
+                                let ephemeral = Ephemeral(push: EphemeralPushSms(
+                                    type: "messaging_extension_reply",
+                                    sourceUserIden: source_user_iden,
+                                    packageName: "com.pushbullet.android",
+                                    targetDeviceIden: source_device_iden,
+                                    conversationIden: recipient["address"].stringValue,
+                                    message: message))
+                                
+                                self.send(ephemeral: ephemeral)
                             }
                         }
                     }
@@ -124,39 +120,96 @@ class Ephemerals: NSObject {
     }
     
     func quickReply(_ push: JSON, reply: String) {
-        let body: [String : Any] = [
-            "type": "push",
-            "push": [
-                "type": "messaging_extension_reply",
-                "source_user_iden": push["source_user_iden"].string!,
-                "target_device_iden": push["source_device_iden"].string!,
-                "package_name": push["package_name"].string!,
-                "conversation_iden": push["conversation_iden"].string!,
-                "message": reply
-            ]
-        ]
+        let ephemeral = Ephemeral(push: EphemeralPushSms(
+            type: "messaging_extension_reply",
+            sourceUserIden: push["source_user_iden"].stringValue,
+            packageName: push["package_name"].stringValue,
+            targetDeviceIden: push["source_device_iden"].stringValue,
+            conversationIden: push["conversation_iden"].stringValue,
+            message: reply))
         
-        sendEphemeral(body)
+        self.send(ephemeral: ephemeral)
     }
     
-    func dismissPush(_ push: JSON, trigger_key: String?) {
-        var body: [String : Any] = [
-            "type": "push",
-            "push": [
-                "notification_id": push["notification_id"].string!,
-                "package_name": push["package_name"].string!,
-                "source_user_iden": push["source_user_iden"].string!,
-                "type": "dismissal"
-            ]
-        ]
-        
-        if (trigger_key != nil) {
-            var push = body["push"] as! [String: String]
-            push["trigger_action"] = trigger_key!
-            body["push"] = push
-        }
-        
-        sendEphemeral(body)
+    func dismissPush(_ push: JSON, triggerKey: String?) {
+        let ephemeral = Ephemeral(push: EphemeralPushDismiss(
+            type: "dismissal",
+            sourceUserIden: push["source_user_iden"].stringValue,
+            packageName: push["package_name"].stringValue,
+            notificationId: push["notification_id"].stringValue,
+            triggerAction: triggerKey))
+
+        self.send(ephemeral: ephemeral)
     }
-    
+
+    func sendSms(message: String, device: Device, sourceUserId: String, conversationId: String) {
+        let ephemeral = Ephemeral(push: EphemeralPushSms(
+            type: "messaging_extension_reply",
+            sourceUserIden: sourceUserId,
+            packageName: "com.pushbullet.android",
+            targetDeviceIden: device.id,
+            conversationIden: conversationId,
+            message: message))
+
+        self.send(ephemeral: ephemeral)
+    }
+}
+
+struct Ephemeral {
+
+    let type: String = "push"
+    let push: EphemeralPush
+
+    func toJson() -> [String: Any]{
+        return [
+            "type": self.type,
+            "push": self.push.toJson()
+        ]
+    }
+
+}
+
+protocol EphemeralPush {
+    var type: String { get }
+    var sourceUserIden: String { get }
+    func toJson() -> [String: String]
+}
+
+struct EphemeralPushSms: EphemeralPush {
+
+    let type: String
+    let sourceUserIden: String
+    let packageName: String
+    let targetDeviceIden: String
+    let conversationIden: String
+    let message: String
+
+    func toJson() -> [String : String] {
+        return [
+            "type": self.type,
+            "package_name": self.packageName,
+            "source_user_iden": self.sourceUserIden,
+            "target_device_iden": self.targetDeviceIden,
+            "conversation_iden": self.conversationIden,
+            "message": self.message
+        ]
+    }
+}
+
+struct EphemeralPushDismiss: EphemeralPush {
+
+    let type: String
+    let sourceUserIden: String
+    let packageName: String
+    let notificationId: String
+    let triggerAction: String?
+
+    func toJson() -> [String : String] {
+        return [
+            "type": self.type,
+            "package_name": self.packageName,
+            "source_user_iden": self.sourceUserIden,
+            "notification_id": self.notificationId,
+        ]
+    }
 }

@@ -63,7 +63,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
                     print("No devices with SMS found")
                     return
                 }
-                let smsService = SmsService(token: token, deviceId: device.id)
+                let smsService = SmsService(token: token, device: device)
                 let window = MessagingWindow(windowNibName: "MessagingWindow")
                 window.setup(smsService: smsService)
 

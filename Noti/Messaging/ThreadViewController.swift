@@ -15,7 +15,8 @@ class ThreadViewController: NSViewController {
     @IBOutlet fileprivate var button: NSButton!
 
     private var parentVc: NSViewController?
-    private let threadId: String
+    private let thread: ThreadPreview
+    private let device: Device
 
     fileprivate let smsService: SmsService
     fileprivate var messages = [Message]() {
@@ -24,10 +25,11 @@ class ThreadViewController: NSViewController {
         }
     }
 
-    init(threadId: String, smsService: SmsService, parentVc: NSViewController?) {
+    init(thread: ThreadPreview, smsService: SmsService, parentVc: NSViewController?) {
         self.smsService = smsService
         self.parentVc = parentVc
-        self.threadId = threadId
+        self.thread = thread
+        self.device = smsService.device
         super.init(nibName: nil, bundle: nil)!
     }
 
@@ -35,28 +37,32 @@ class ThreadViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func dismissViewController(_ viewController: NSViewController) {
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(NSNib.init(nibNamed: "MessageTableCellView", bundle: nil), forIdentifier: "MessageCell")
 
-        smsService.fetchThreadMessages(threadId: self.threadId, callback: { [weak self] messages in
+        smsService.fetchThreadMessages(threadId: self.thread.id, callback: { [weak self] messages in
             self?.messages = messages.reversed()
         })
     }
 
+    // TODO definitely needs to be refactored.
     @IBAction func tappedSend(sender: NSButton) {
-        print("I would send \(self.textField.stringValue) if I knew how.")
+        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let message = self.textField.stringValue
+        self.thread.recipients.forEach { (recipient) in
+            self.smsService.ephemeralService.sendSms(
+                message: message,
+                device: self.device,
+                sourceUserId: appDelegate.pushManager!.userInfo!["iden"].stringValue,
+                conversationId: recipient.number)
+        }
     }
 
     @IBAction func tappedBack(sender: NSButton) {
         self.view.window?.contentViewController = self.parentVc
         self.parentVc = nil
-        // TODO check that this VC deallocs
     }
 
 }

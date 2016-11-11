@@ -62,8 +62,8 @@ extension ThreadsViewController: NSTableViewDelegate, NSTableViewDataSource {
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let threadId = threads[tableView.selectedRow].id
-        let threadVc = ThreadViewController(threadId: threadId, smsService: self.smsService, parentVc: self)
+        let thread = threads[tableView.selectedRow]
+        let threadVc = ThreadViewController(thread: thread, smsService: self.smsService, parentVc: self)
         self.view.window?.contentViewController = threadVc
         self.threadVc = threadVc
     }

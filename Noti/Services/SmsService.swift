@@ -13,18 +13,20 @@ import SwiftyJSON
 class SmsService {
 
     private let token: String
-    private let deviceId: String
+    let device: Device
+    let ephemeralService: EphemeralService
 
-    init(token: String, deviceId: String = "ujE5MF7z1Uasjz5ho2YKDA") {
+    init(token: String, device: Device) {
         self.token = token
-        self.deviceId = deviceId
+        self.device = device
+        self.ephemeralService = EphemeralService(token: token)
     }
 
     func fetchThreads(callback: @escaping (([ThreadPreview]) -> Void)) {
         let headers = [
             "Access-Token": token
         ]
-        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(deviceId)_threads", method: .get, headers: headers)
+        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(self.device.id)_threads", method: .get, headers: headers)
             .responseString { response in
                 guard
                     let string = response.result.value,
@@ -41,7 +43,7 @@ class SmsService {
         let headers = [
             "Access-Token": token
         ]
-        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(deviceId)_thread_\(threadId)", method: .get, headers: headers)
+        Alamofire.request("https://api.pushbullet.com/v2/permanents/\(self.device.id)_thread_\(threadId)", method: .get, headers: headers)
             .responseString { response in
                 guard
                     let string = response.result.value,
