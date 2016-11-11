@@ -37,12 +37,11 @@ class AuthViewController: NSViewController, WebFrameLoadDelegate {
             if let url = ds.response.url {
                 if url.absoluteString.hasPrefix("about:blank") {
                     let token = (url.absoluteString as NSString).substring(from: 27)
-                    let appDelegate = NSApplication.shared().delegate as! AppDelegate
                     
                     print("Got token!", token, "saving and restarting PushManager")
                     
                     userDefaults.setValue(token, forKeyPath: "token")
-                    appDelegate.loadPushManager()
+                    SharedAppDelegate.loadPushManager()
                     
                     self.view.window?.close()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "AuthSuccess"), object: nil)

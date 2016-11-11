@@ -29,6 +29,7 @@
 		1DF3EF621DD560000080CFA6 /* ThreadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF3EF601DD560000080CFA6 /* ThreadViewController.xib */; };
 		1DF3EF641DD560A20080CFA6 /* MessageTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF3EF631DD560A20080CFA6 /* MessageTableCellView.swift */; };
 		1DF3EF661DD560CB0080CFA6 /* MessageTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF3EF651DD560CB0080CFA6 /* MessageTableCellView.xib */; };
+		1DF3EF691DD570110080CFA6 /* HackyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF3EF681DD570110080CFA6 /* HackyRepository.swift */; };
 		499DD0F61D2ACA0B00BB759D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 499DD0F51D2ACA0B00BB759D /* .gitignore */; };
 		49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */; };
 		49B43B131D1ADFB200A24585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B43B111D1ADFB200A24585 /* Main.storyboard */; };
@@ -60,6 +61,7 @@
 		1DF3EF601DD560000080CFA6 /* ThreadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThreadViewController.xib; path = Messaging/ThreadViewController.xib; sourceTree = "<group>"; };
 		1DF3EF631DD560A20080CFA6 /* MessageTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTableCellView.swift; path = Messaging/MessageTableCellView.swift; sourceTree = "<group>"; };
 		1DF3EF651DD560CB0080CFA6 /* MessageTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageTableCellView.xib; path = Messaging/MessageTableCellView.xib; sourceTree = "<group>"; };
+		1DF3EF681DD570110080CFA6 /* HackyRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HackyRepository.swift; path = Repositories/HackyRepository.swift; sourceTree = "<group>"; };
 		499DD0F51D2ACA0B00BB759D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		49B43B081D1ADFB200A24585 /* Noti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Noti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B43B0B1D1ADFB200A24585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,8 @@
 		1DB24D9C1DBC00EF00401149 /* Messaging */ = {
 			isa = PBXGroup;
 			children = (
+				1DF3EF631DD560A20080CFA6 /* MessageTableCellView.swift */,
+				1DF3EF651DD560CB0080CFA6 /* MessageTableCellView.xib */,
 				1DF1807F1DBC39BB00B125E1 /* MessagingWindow.swift */,
 				1DF180801DBC39BB00B125E1 /* MessagingWindow.xib */,
 				1DF1807B1DBC301E00B125E1 /* ThreadsViewController.swift */,
@@ -140,8 +144,6 @@
 				1D365E3F1DBCF6C100C49202 /* ThreadTableCellView.xib */,
 				1DF3EF5F1DD560000080CFA6 /* ThreadViewController.swift */,
 				1DF3EF601DD560000080CFA6 /* ThreadViewController.xib */,
-				1DF3EF631DD560A20080CFA6 /* MessageTableCellView.swift */,
-				1DF3EF651DD560CB0080CFA6 /* MessageTableCellView.xib */,
 			);
 			name = Messaging;
 			sourceTree = "<group>";
@@ -152,6 +154,14 @@
 				1DB24D9F1DBC01D200401149 /* RoundedImage.swift */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		1DF3EF671DD56FE40080CFA6 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				1DF3EF681DD570110080CFA6 /* HackyRepository.swift */,
+			);
+			name = Repositories;
 			sourceTree = "<group>";
 		};
 		49B43AFF1D1ADFB100A24585 = {
@@ -181,6 +191,7 @@
 				1DB24D971DBBFFC500401149 /* Login */,
 				1DB24D9C1DBC00EF00401149 /* Messaging */,
 				1DB24D991DBC001900401149 /* Resources */,
+				1DF3EF671DD56FE40080CFA6 /* Repositories */,
 				1DB24D9A1DBC007000401149 /* Services */,
 				1DB24D9B1DBC00D000401149 /* StatusBar */,
 				1DB24D9D1DBC010400401149 /* Utils */,
@@ -352,6 +363,7 @@
 				1DF3EF641DD560A20080CFA6 /* MessageTableCellView.swift in Sources */,
 				1DB24DA51DBC01E500401149 /* PushManager.swift in Sources */,
 				49B43B0C1D1ADFB200A24585 /* AppDelegate.swift in Sources */,
+				1DF3EF691DD570110080CFA6 /* HackyRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

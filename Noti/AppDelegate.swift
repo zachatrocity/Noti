@@ -11,7 +11,8 @@ import Starscream
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
+
+    private(set) var cache: HackyRepository!
     private(set) var pushManager: PushManager?
     private var iwc: NSWindowController?
 
@@ -36,6 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        self.cache = HackyRepository()
         loadPushManager()
     }
 
@@ -45,3 +47,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 }
 
+let SharedAppDelegate = NSApplication.shared().delegate as! AppDelegate

@@ -67,7 +67,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
                 let window = MessagingWindow(windowNibName: "MessagingWindow")
                 window.setup(smsService: smsService)
 
-                (NSApplication.shared().delegate as! AppDelegate).messagingWindow = window
+                SharedAppDelegate.messagingWindow = window
 
                 NSApplication.shared().activate(ignoringOtherApps: true)
                 window.showWindow(self)
@@ -78,14 +78,12 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     
     @IBAction func reauthorize(_ sender: AnyObject?) {
         //delete token & restart push manager
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
         UserDefaults.standard.removeObject(forKey: "token")
-        appDelegate.loadPushManager()
+        SharedAppDelegate.loadPushManager()
     }
     
     @IBAction func setPassword(_ sender: AnyObject?) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
-        appDelegate.pushManager?.displayPasswordForm()
+        SharedAppDelegate.pushManager?.displayPasswordForm()
     }
     
     @IBAction func quit(_ sender: AnyObject?) {

@@ -47,15 +47,13 @@ class ThreadViewController: NSViewController {
         })
     }
 
-    // TODO definitely needs to be refactored.
     @IBAction func tappedSend(sender: NSButton) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
         let message = self.textField.stringValue
         self.thread.recipients.forEach { (recipient) in
             self.smsService.ephemeralService.sendSms(
                 message: message,
                 device: self.device,
-                sourceUserId: appDelegate.pushManager!.userInfo!["iden"].stringValue,
+                sourceUserId: SharedAppDelegate.pushManager!.userInfo!["iden"].stringValue, // TODO definitely needs to be refactored.
                 conversationId: recipient.number)
         }
     }
