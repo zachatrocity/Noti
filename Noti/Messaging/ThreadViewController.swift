@@ -53,7 +53,7 @@ class ThreadViewController: NSViewController {
             self.smsService.ephemeralService.sendSms(
                 message: message,
                 device: self.device,
-                sourceUserId: SharedAppDelegate.pushManager!.userInfo!["iden"].stringValue, // TODO definitely needs to be refactored.
+                sourceUserId: SharedAppDelegate.pushManager!.user!.iden, // TODO definitely needs to be refactored.
                 conversationId: recipient.number)
         }
     }

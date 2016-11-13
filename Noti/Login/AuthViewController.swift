@@ -12,7 +12,6 @@ import WebKit
 class AuthViewController: NSViewController, WebFrameLoadDelegate {
     
     @IBOutlet weak var webView: WebView!
-    let userDefaults: UserDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,20 +32,19 @@ class AuthViewController: NSViewController, WebFrameLoadDelegate {
         //remove fugly loader that is stuck on page, even after loading (pushbullet get your shit together pls ty)
         sender.stringByEvaluatingJavaScript(from: "var uglyDivs = document.querySelectorAll(\"#onecup .agree-page div:not(#header), #onecup .agree-page #header\"); if(uglyDivs.length > 0) for (var i = 0; i < uglyDivs.length; i++) uglyDivs[i].remove()")
 
-        if let ds = frame.dataSource {
-            if let url = ds.response.url {
-                if url.absoluteString.hasPrefix("about:blank") {
-                    let token = (url.absoluteString as NSString).substring(from: 27)
-                    
-                    print("Got token!", token, "saving and restarting PushManager")
-                    
-                    userDefaults.setValue(token, forKeyPath: "token")
-                    SharedAppDelegate.loadPushManager()
-                    
-                    self.view.window?.close()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "AuthSuccess"), object: nil)
-                }
-            }
+        if let ds = frame.dataSource,
+            let url = ds.response.url,
+            url.absoluteString.hasPrefix("about:blank") {
+
+            let token = (url.absoluteString as NSString).substring(from: 27)
+            
+            print("Got token!", token, "saving and restarting PushManager")
+            
+            UserDefaults.standard.setValue(token, forKeyPath: "token")
+            SharedAppDelegate.loadPushManager()
+            
+            self.view.window?.close()
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "AuthSuccess"), object: nil)
         }
     }
 

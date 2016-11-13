@@ -15,31 +15,32 @@ import Alamofire
 
 class PushManager: NSObject, WebSocketDelegate {
 
-    var socket:WebSocket?
-    let center = NSUserNotificationCenter.default
-    var pushHistory = [JSON]()
-    var userInfo:JSON?
-    var token:String
+    let token: String
+    let socket: WebSocket
     let ephemeralService: EphemeralService
-    var crypt:Crypt?
+    let userService: UserService
+
+    var user: User?
+    var pushHistory = [JSON]()
+    var crypt: Crypt?
     var killed = false
-    let userDefaults = UserDefaults.standard
-    var userState: String
     
     init(token: String) {
         self.token = token
         self.socket = WebSocket(url: URL(string: "wss://stream.pushbullet.com/websocket/" + token)!)
         self.ephemeralService = EphemeralService(token: token)
-        self.userState = "Initializing..."
+        self.userService = UserService(token: token)
+
         super.init()
+
+        self.setState(state: "Initializing...")
         
-        center.delegate = self
+        NSUserNotificationCenter.default.delegate = self
         self.initCrypt()
         
         print("Getting user info...")
-        getUserInfo {
-            self.connect()
-        }
+
+        self.refreshUser()
     }
     
     deinit {
@@ -51,11 +52,22 @@ class PushManager: NSObject, WebSocketDelegate {
         self.killed = true
         
         //disconnect now!
-        self.socket!.disconnect(forceTimeout: 0)
+        self.socket.disconnect(forceTimeout: 0)
+    }
+
+    private func refreshUser() {
+        userService.fetchUserInfo(success: { [weak self] user in
+            self?.user = user
+            self?.connect()
+        }, failure: { [weak self] in
+            self?.killed = true
+            self?.disconnect()
+            self?.setState(state: "Failed to log in.")
+        })
     }
     
     func initCrypt() {
-        let keyData = userDefaults.object(forKey: "secureKey") as? Data
+        let keyData = UserDefaults.standard.object(forKey: "secureKey") as? Data
         if keyData != nil {
             let key = keyData?.toArray()
             self.crypt = Crypt(key: key!)
@@ -67,8 +79,7 @@ class PushManager: NSObject, WebSocketDelegate {
         self.ephemeralService.crypt = self.crypt
     }
     
-    func setState(_ state: String, image: NSImage? = nil, disabled: Bool? = nil) {
-        userState = state
+    func setState(state: String, image: NSImage? = nil, disabled: Bool? = nil) {
         var object:[String: AnyObject] = [
             "title": state as AnyObject
         ]
@@ -81,62 +92,26 @@ class PushManager: NSObject, WebSocketDelegate {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "StateChange"), object: object)
     }
     
-    var _callback:(() -> Void)? = nil
-    func getUserInfo(_ callback: (() -> Void)?) {
-        //todo: this is kinda dirty ...
-        self._callback = callback
-        
-        let headers = [
-            "Access-Token": token
-        ]
-        
-        Alamofire.request("https://api.pushbullet.com/v2/users/me", method: .get, headers: headers)
-            .responseString { response in
-                if let info = response.result.value {
-                    debugPrint(info)
-                    self.userInfo = JSON.parse(info)
-                    
-                    if self.userInfo!["error"].exists() {
-                        self.killed = true
-                        self.disconnect()
-                        self.setState("Disconnected: " + self.userInfo!["error"]["message"].string!, disabled: true)
-                    } else {
-                        if callback != nil {
-                            callback!()
-                        }
-                    }
-                    
-                } else if response.result.error != nil {
-                    if callback == nil {
-                        self.killed = true
-                        self.disconnect()
-                        self.setState("Failed to log in.")
-                    } else {
-                        self.setState("Failed to log in, retrying in 2 seconds...")
-                        Timer.scheduledTimer(timeInterval: 2, target: BlockOperation(block: self.retryUserInfo), selector: #selector(Operation.main), userInfo: nil, repeats: false)
-                    }
-                    
-                }
-        }
-    }
-    
-    func retryUserInfo() {
-        getUserInfo(self._callback)
-    }
-    
     func connect() {
-        socket!.delegate = self
-        socket!.connect()
+        socket.delegate = self
+        socket.connect()
     }
     
     internal func websocketDidConnect(socket: WebSocket) {
-        if let photo = self.userInfo!["image_url"].string {
+        func applyState(name: String?, image: NSImage?) {
+            if let name = name {
+                self.setState(state: "Logged in as: \(name)", image: image, disabled: false)
+            } else {
+                self.setState(state: "Logged in", image: image, disabled: false)
+            }
+        }
+        if let photo = self.user?.imageUrl {
             Alamofire.request(photo, method: .get)
-                .responseData { response in
-                    self.setState("Logged in as: " + self.userInfo!["name"].string!, image: NSImage(data: response.result.value!), disabled: false)
+                .responseData { [user = user] response in
+                    applyState(name: user?.name, image: NSImage(data: response.result.value!))
             }
         } else {
-            self.setState("Logged in as: " + self.userInfo!["name"].string!, disabled: false)
+            applyState(name: user?.name, image: nil)
         }
         
         
@@ -149,16 +124,16 @@ class PushManager: NSObject, WebSocketDelegate {
         if(!self.killed) {
             print("Reconnecting in 5 sec")
             if error != nil {
-                setState("Disconnected: \(error!.localizedDescription), retrying...", disabled: true)
+                setState(state: "Disconnected: \(error!.localizedDescription), retrying...", disabled: true)
             }
             else {
-                setState("Disconnected, retrying...", disabled: true)
+                setState(state: "Disconnected, retrying...", disabled: true)
             }
             
             Timer.scheduledTimer(timeInterval: 5, target: BlockOperation(block: self.connect), selector: #selector(Operation.main), userInfo: nil, repeats: false)
         } else {
             print("Not going to reconnect: I'm killed")
-            setState("Disconnected. Please log in.", disabled: true)
+            setState(state: "Disconnected. Please log in.", disabled: true)
         }
     }
     
@@ -183,11 +158,11 @@ class PushManager: NSObject, WebSocketDelegate {
                 return
             }
             else if(pwd.stringValue != "") {
-                let iden = userInfo!["iden"].string!
+                let iden = self.user!.iden
                 let key = Crypt.generateKey(pwd.stringValue, salt: iden)
-                userDefaults.set(key, forKey: "secureKey")
+                UserDefaults.standard.set(key, forKey: "secureKey")
             } else {
-                userDefaults.removeObject(forKey: "secureKey")
+                UserDefaults.standard.removeObject(forKey: "secureKey")
             }
             initCrypt()
             
@@ -195,10 +170,8 @@ class PushManager: NSObject, WebSocketDelegate {
     }
 
     private func receivedTickle(message: JSON) {
-        if let subtype = message["subtype"].string {
-            if(subtype == "account") {
-                getUserInfo(nil)
-            }
+        if let subtype = message["subtype"].string, subtype == "account" {
+            self.refreshUser()
         }
     }
 
@@ -214,7 +187,7 @@ class PushManager: NSObject, WebSocketDelegate {
                 noti.informativeText = "It appears you're using encryption, click to set password."
                 noti.actionButtonTitle = "Enter password"
                 noti.identifier = "noti_encrypt" + String(arc4random())
-                center.deliver(noti)
+                NSUserNotificationCenter.default.deliver(noti)
             }
 
             if crypt != nil {
@@ -260,7 +233,7 @@ class PushManager: NSObject, WebSocketDelegate {
                 }
 
                 if let actions = push["actions"].array {
-                    if(actions.count == 1 || !(userInfo!["pro"].exists())) {
+                    if actions.count == 1 || !self.user!.pro {
                         notification.actionButtonTitle = actions[0]["label"].string!
                     } else {
                         var titles = [String]()
@@ -275,13 +248,13 @@ class PushManager: NSObject, WebSocketDelegate {
 
                 notification.soundName = NSUserNotificationDefaultSoundName
 
-                center.deliver(notification)
+                NSUserNotificationCenter.default.deliver(notification)
                 break
             case "dismissal":
                 //loop through current user notifications, if identifier matches, remove it
-                for noti in center.deliveredNotifications {
+                for noti in NSUserNotificationCenter.default.deliveredNotifications {
                     if noti.identifier == push["notification_id"].string {
-                        center.removeDeliveredNotification(noti)
+                        NSUserNotificationCenter.default.removeDeliveredNotification(noti)
                         print("Removed a noti (", noti.identifier!, ")")
                     }
                 }
@@ -316,10 +289,10 @@ class PushManager: NSObject, WebSocketDelegate {
                             Alamofire.request(photo, method: .get)
                                 .responseData { response in
                                     notification.setValue(NSImage(data: response.result.value!), forKey: "_identityImage")
-                                    self.center.deliver(notification)
+                                    NSUserNotificationCenter.default.deliver(notification)
                             }
                         } else {
-                            self.center.deliver(notification)
+                            NSUserNotificationCenter.default.deliver(notification)
                         }
                     }
                 }
@@ -469,7 +442,7 @@ extension PushManager: NSUserNotificationCenterDelegate {
                 guard (sms["thread_id"].string! == thread_id && String(sms["timestamp"].int!) == timestamp) else {
                     continue
                 }
-                ephemeralService.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.userInfo!["iden"].string!)
+                ephemeralService.respondToSMS(body, thread_id: thread_id, source_device_iden: source_device_iden, source_user_iden: self.user!.iden)
                 indexToBeRemoved = i
                 break
             }
