@@ -16,7 +16,8 @@ class ThreadsViewController: NSViewController {
 
     fileprivate let smsService: SmsService
     
-    fileprivate var threadVc: ThreadViewController?
+    fileprivate weak var threadVc: ThreadViewController?
+    
     fileprivate var threads = [ThreadPreview]() {
         didSet {
             tableView.reloadData()
@@ -46,6 +47,8 @@ class ThreadsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.window?.title = self.smsService.device.name
+
         tableView.register(NSNib.init(nibNamed: "ThreadTableCellView", bundle: nil), forIdentifier: "ThreadCell")
 
         smsService.fetchThreads { [weak self] threads in
@@ -67,8 +70,13 @@ extension ThreadsViewController: NSTableViewDelegate, NSTableViewDataSource {
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = tableView.make(withIdentifier: "ThreadCell", owner: nil) as! ThreadTableCellView
-        cell.label.stringValue = threads[row].recipients.first?.name ?? "Unknown"
+        cell.threadName.stringValue = threads[row].recipients.first?.name ?? "Unknown"
+        cell.threadPreview.stringValue = threads[row].latest.body
         return cell
+    }
+
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 58
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {

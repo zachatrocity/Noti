@@ -13,9 +13,9 @@
             <rect key="frame" x="0.0" y="0.0" width="314" height="61"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q8r-Ld-lM5">
-                    <rect key="frame" x="6" y="22" width="37" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Nvx-OJ-JOh">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Zx6-4f-hdI">
+                    <rect key="frame" x="6" y="36" width="92" height="17"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Multiline Label" id="E22-om-PA1">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -23,11 +23,12 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="centerY" secondItem="DLM-Wj-du3" secondAttribute="centerY" id="ClV-Mj-Abg"/>
-                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="mFt-iT-pl0"/>
+                <constraint firstItem="Zx6-4f-hdI" firstAttribute="top" secondItem="DLM-Wj-du3" secondAttribute="top" constant="8" id="ado-H6-pSi"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Zx6-4f-hdI" secondAttribute="trailing" constant="8" id="xXb-ty-ehS"/>
+                <constraint firstItem="Zx6-4f-hdI" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="y4U-Rd-0Zc"/>
             </constraints>
             <connections>
-                <outlet property="label" destination="Q8r-Ld-lM5" id="nmN-lS-iAa"/>
+                <outlet property="label" destination="Zx6-4f-hdI" id="LPb-7A-fz6"/>
             </connections>
             <point key="canvasLocation" x="125" y="43.5"/>
         </tableCellView>

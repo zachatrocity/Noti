@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 import ImageIO
 
-class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
+class StatusMenuController: NSObject, NSUserNotificationCenterDelegate, NSWindowDelegate {
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var menuItem: NSMenuItem!
@@ -71,6 +71,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
 
                 NSApplication.shared().activate(ignoringOtherApps: true)
                 window.showWindow(self)
+                window.window?.delegate = self
                 window.window?.makeKeyAndOrderFront(self)
             })
         }
@@ -88,5 +89,9 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     
     @IBAction func quit(_ sender: AnyObject?) {
         NSApplication.shared().terminate(self)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        SharedAppDelegate.messagingWindow = nil
     }
 }

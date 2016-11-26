@@ -52,6 +52,9 @@ class ThreadViewController: NSViewController {
 
         tableView.register(NSNib.init(nibNamed: "MessageTableCellView", bundle: nil), forIdentifier: "MessageCell")
 
+        // TODO get this working
+        self.title = thread.recipients.first?.name ?? "Unknown"
+
         smsService.fetchThreadMessages(threadId: self.thread.id, callback: { [weak self] messages in
             self?.messages = messages.reversed()
         })
@@ -85,6 +88,10 @@ extension ThreadViewController: NSTableViewDelegate, NSTableViewDataSource {
         let cell = tableView.make(withIdentifier: "MessageCell", owner: nil) as! MessageTableCellView
         cell.label.stringValue = messages[row].body
         return cell
+    }
+
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 100
     }
     
 }

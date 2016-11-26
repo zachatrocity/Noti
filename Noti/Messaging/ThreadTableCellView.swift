@@ -10,6 +10,7 @@ import Cocoa
 
 class ThreadTableCellView: NSTableCellView {
 
-    @IBOutlet var label: NSTextField!
+    @IBOutlet var threadName: NSTextField!
+    @IBOutlet var threadPreview: NSTextField!
     
 }
