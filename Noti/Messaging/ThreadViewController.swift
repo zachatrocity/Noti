@@ -31,6 +31,16 @@ class ThreadViewController: NSViewController {
         self.thread = thread
         self.device = smsService.device
         super.init(nibName: nil, bundle: nil)!
+
+        NotificationCenter.default.addObserver(forName: Notification.Name("HackyRepository"), object: nil, queue: nil, using: { [weak self] _ in
+            if let messages = SharedAppDelegate.cache.messages[thread.id] {
+                self?.messages = messages.reversed()
+            }
+        })
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     required init?(coder: NSCoder) {

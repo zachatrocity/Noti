@@ -276,10 +276,13 @@ class PushManager: NSObject, WebSocketDelegate {
                     for sms in push["notifications"].array! {
                         let notification = NSUserNotification()
 
+                        let threadId = sms["thread_id"].stringValue
+                        let deviceId = push["source_device_iden"].stringValue
+
                         notification.title = "SMS from " + sms["title"].string!
                         notification.informativeText = sms["body"].string
                         notification.hasReplyButton = true
-                        notification.identifier = "sms_" + push["source_device_iden"].string! + "|" + sms["thread_id"].string! + "|" + String(sms["timestamp"].int!)
+                        notification.identifier = "sms_" + deviceId + "|" + threadId + "|" + String(sms["timestamp"].int!)
 
                         notification.setValue(true, forKeyPath: "_showsButtons")
 
@@ -294,6 +297,8 @@ class PushManager: NSObject, WebSocketDelegate {
                         } else {
                             NSUserNotificationCenter.default.deliver(notification)
                         }
+
+                        NotificationCenter.default.post(name: Notification.Name("NewSMS-\(deviceId)"), object: nil, userInfo: ["threadId": threadId])
                     }
                 }
                 break

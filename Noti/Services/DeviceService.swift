@@ -29,6 +29,7 @@ class DeviceService {
                 let devices = devicesJson
                     .map { Device(json: $0) }
                     .filter { $0.hasSms }
+                SharedAppDelegate.cache.devices = devices
                 callback(devices)
         }
     }

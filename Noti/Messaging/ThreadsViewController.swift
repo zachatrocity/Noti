@@ -27,6 +27,16 @@ class ThreadsViewController: NSViewController {
         self.smsService = smsService
         self.parentVc = parentVc
         super.init(nibName: nil, bundle: nil)!
+
+        NotificationCenter.default.addObserver(forName: Notification.Name("HackyRepository"), object: nil, queue: nil, using: { [weak self] _ in
+            if let threads = SharedAppDelegate.cache.threads[smsService.device.id] {
+                self?.threads = threads
+            }
+        })
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     required init?(coder: NSCoder) {

@@ -20,6 +20,15 @@ class SmsService {
         self.token = token
         self.device = device
         self.ephemeralService = EphemeralService(token: token)
+
+        NotificationCenter.default.addObserver(forName: Notification.Name("NewSMS-\(device.id)"), object: nil, queue: nil, using: { [weak self] notif in
+            let threadId = notif.userInfo!["threadId"] as! String
+            self?.fetchThreadMessages(threadId: threadId, callback: { _ in })
+        })
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func fetchThreads(callback: @escaping (([ThreadPreview]) -> Void)) {
@@ -27,14 +36,16 @@ class SmsService {
             "Access-Token": token
         ]
         Alamofire.request("https://api.pushbullet.com/v2/permanents/\(self.device.id)_threads", method: .get, headers: headers)
-            .responseString { response in
+            .responseString { [weak self] response in
                 guard
+                    let `self` = self,
                     let string = response.result.value,
                     let json = JSON.parse(string)["threads"].array else {
                         // TODO error
                         return
                 }
                 let threads = json.map { ThreadPreview(json: $0) }
+                SharedAppDelegate.cache.threads[self.device.id] = threads
                 callback(threads)
         }
     }
@@ -52,6 +63,7 @@ class SmsService {
                         return
                 }
                 let messages = json.map { Message(json: $0) }
+                SharedAppDelegate.cache.messages[threadId] = messages
                 callback(messages)
         }
     }
