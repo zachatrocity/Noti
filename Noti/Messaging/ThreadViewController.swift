@@ -22,6 +22,7 @@ class ThreadViewController: NSViewController {
     fileprivate var messages = [Message]() {
         didSet {
             tableView.reloadData()
+            tableView.scrollRowToVisible(messages.count - 1)
         }
     }
 
@@ -91,7 +92,11 @@ extension ThreadViewController: NSTableViewDelegate, NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 100
+        let mockCell = NSTextField()
+        mockCell.font = NSFont.systemFont(ofSize: 13)
+        mockCell.stringValue = messages[row].body
+        let size = mockCell.sizeThatFits(NSSize(width: tableView.frame.width - 16, height: CGFloat.greatestFiniteMagnitude))
+        return size.height + 16 // 8 padding on both sides
     }
     
 }
