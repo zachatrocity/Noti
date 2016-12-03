@@ -22,9 +22,9 @@ class AuthViewController: NSViewController, WebFrameLoadDelegate {
     }
     
     override func viewDidAppear() {
-        if (self.view.window != nil) {
-            self.view.window!.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
-            self.view.window!.invalidateShadow()
+        if let window = self.view.window {
+            window.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            window.invalidateShadow()
         }
     }
     

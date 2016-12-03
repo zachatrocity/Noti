@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,8 +14,23 @@
             <rect key="frame" x="0.0" y="0.0" width="314" height="58"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="kIU-mW-xjM">
+                    <rect key="frame" x="58" y="29" width="1" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="qp4-Vq-LCL"/>
+                        <constraint firstAttribute="width" constant="1" id="uj6-Y2-gDF"/>
+                    </constraints>
+                </customView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lBI-rG-h3r">
+                    <rect key="frame" x="8" y="8" width="42" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="lBI-rG-h3r" secondAttribute="height" multiplier="1:1" id="hHf-lf-Noa"/>
+                        <constraint firstAttribute="width" constant="42" id="yh5-rU-t1l"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="XPO-cl-iSx"/>
+                </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q8r-Ld-lM5">
-                    <rect key="frame" x="6" y="33" width="40" height="17"/>
+                    <rect key="frame" x="56" y="30" width="40" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Nvx-OJ-JOh">
                         <font key="font" metaFont="systemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -22,22 +38,26 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-4j-1kD">
-                    <rect key="frame" x="6" y="8" width="37" height="17"/>
+                    <rect key="frame" x="56" y="12" width="37" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Label" id="OXj-iw-yvP">
                         <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="16a-Xe-h1Z"/>
-                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="top" secondItem="DLM-Wj-du3" secondAttribute="top" constant="8" id="5WQ-DC-6YP"/>
-                <constraint firstItem="Tgg-4j-1kD" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="9x6-w2-mJU"/>
+                <constraint firstItem="lBI-rG-h3r" firstAttribute="top" secondItem="DLM-Wj-du3" secondAttribute="top" constant="8" id="3bG-G1-gcN"/>
+                <constraint firstItem="kIU-mW-xjM" firstAttribute="centerY" secondItem="DLM-Wj-du3" secondAttribute="centerY" id="C62-NS-GLs"/>
+                <constraint firstItem="Tgg-4j-1kD" firstAttribute="top" secondItem="kIU-mW-xjM" secondAttribute="bottom" id="Ccb-Pb-ZkN"/>
+                <constraint firstAttribute="bottom" secondItem="lBI-rG-h3r" secondAttribute="bottom" constant="8" id="Fd5-Tj-0bj"/>
+                <constraint firstItem="Tgg-4j-1kD" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" id="Ucn-4H-gT4"/>
+                <constraint firstItem="lBI-rG-h3r" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="WuJ-Tl-Uei"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tgg-4j-1kD" secondAttribute="trailing" constant="8" id="eFj-Ft-Cuc"/>
-                <constraint firstItem="Tgg-4j-1kD" firstAttribute="top" secondItem="Q8r-Ld-lM5" secondAttribute="bottom" constant="8" id="eh0-7S-9rx"/>
+                <constraint firstItem="kIU-mW-xjM" firstAttribute="leading" secondItem="Q8r-Ld-lM5" secondAttribute="leading" id="h8J-Rl-lei"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Q8r-Ld-lM5" secondAttribute="trailing" constant="8" id="ptI-nC-uI9"/>
-                <constraint firstAttribute="bottom" secondItem="Tgg-4j-1kD" secondAttribute="bottom" constant="8" id="xef-8H-lac"/>
+                <constraint firstItem="kIU-mW-xjM" firstAttribute="top" secondItem="Q8r-Ld-lM5" secondAttribute="bottom" id="uZF-16-wbb"/>
+                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" id="yZ6-f9-6mM"/>
             </constraints>
             <connections>
                 <outlet property="threadName" destination="Q8r-Ld-lM5" id="L14-An-fzn"/>

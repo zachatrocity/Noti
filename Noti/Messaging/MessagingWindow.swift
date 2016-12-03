@@ -16,5 +16,13 @@ class MessagingWindow: NSWindowController {
         self.threadVc = ThreadsViewController(smsService: smsService, parentVc: nil)
         self.contentViewController = threadVc
     }
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        if let window = self.window {
+            window.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            window.invalidateShadow()
+        }
+    }
     
 }
