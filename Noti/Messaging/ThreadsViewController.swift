@@ -48,6 +48,7 @@ class ThreadsViewController: NSViewController {
         super.viewDidLoad()
 
         self.view.window?.title = self.smsService.device.name
+        
 
         tableView.register(NSNib.init(nibNamed: "ThreadTableCellView", bundle: nil), forIdentifier: "ThreadCell")
 
@@ -72,6 +73,12 @@ extension ThreadsViewController: NSTableViewDelegate, NSTableViewDataSource {
         let cell = tableView.make(withIdentifier: "ThreadCell", owner: nil) as! ThreadTableCellView
         cell.threadName.stringValue = threads[row].recipients.first?.name ?? "Unknown"
         cell.threadPreview.stringValue = threads[row].latest.body
+        
+        if let checkedUrl = URL(string: (threads[row].recipients.first?.imageUrl)! != "" ? (threads[row].recipients.first?.imageUrl)! : "https://placeholdit.imgix.net/~text?txt=&w=100&h=100") {
+            downloadImage(url: checkedUrl, cell: cell)
+        }
+        
+        
         return cell
     }
 
@@ -84,5 +91,25 @@ extension ThreadsViewController: NSTableViewDelegate, NSTableViewDataSource {
         let threadVc = ThreadViewController(thread: thread, smsService: self.smsService, parentVc: self)
         self.view.window?.contentViewController = threadVc
         self.threadVc = threadVc
+    }
+    
+    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) {
+            (data, response, error) in
+            completion(data, response, error)
+            }.resume()
+    }
+    
+    func downloadImage(url: URL, cell: ThreadTableCellView) {
+        getDataFromUrl(url: url) { (data, response, error)  in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() { () -> Void in
+                if let img = NSImage(data: data){
+                    let radius = ((img.size.width) / CGFloat(2))
+                    
+                    cell.threadAvatar?.image = RoundedImage.create(Int(radius), source: img)
+                }
+            }
+        }
     }
 }

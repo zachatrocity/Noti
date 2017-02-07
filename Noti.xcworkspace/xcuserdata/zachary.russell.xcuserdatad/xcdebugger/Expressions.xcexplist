@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ThreadsViewController.(downloadImage(url : URL, cell : ThreadTableCellView) -&gt; ()).(closure #1).(closure #1):ThreadsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ThreadViewController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:ThreadViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "messages[row].direction">
+            </PersistentString>
+            <PersistentString
+               value = "messages[row]">
+            </PersistentString>
+            <PersistentString
+               value = "messages[row].body">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ThreadsViewController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:ThreadsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "(threads[row].recipients.first?.imageUrl ?? &quot;https://placeholdit.imgix.net/~text?txtsize=5&amp;txt=32%C3%9732&amp;w=32&amp;h=32&quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "threads[row].recipients.first?.imageUrl">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ThreadViewController.viewDidLoad() -&gt; ():ThreadViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

@@ -12,12 +12,6 @@ class ThreadTableCellView: NSTableCellView {
 
     @IBOutlet var threadName: NSTextField!
     @IBOutlet var threadPreview: NSTextField!
-    @IBOutlet var imageViewAvatar: NSImageView! {
-        didSet {
-            self.imageViewAvatar.layer?.cornerRadius = self.imageViewAvatar.frame.width / 2
-            self.imageViewAvatar.layer?.masksToBounds = true
-            self.imageViewAvatar.image = NSImage(imageLiteralResourceName: "AppIcon")
-        }
-    }
     
+    @IBOutlet weak var threadAvatar: NSImageView!
 }

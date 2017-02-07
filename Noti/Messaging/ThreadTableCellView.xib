@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,10 +23,13 @@
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lBI-rG-h3r">
                     <rect key="frame" x="8" y="8" width="42" height="42"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="lBI-rG-h3r" secondAttribute="height" multiplier="1:1" id="hHf-lf-Noa"/>
-                        <constraint firstAttribute="width" constant="42" id="yh5-rU-t1l"/>
+                        <constraint firstAttribute="width" constant="42" id="aaf-il-t9Y"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="XPO-cl-iSx"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="XPO-cl-iSx">
+                        <connections>
+                            <binding destination="DLM-Wj-du3" name="value" keyPath="objectValue.imageViewAvatar" id="8Qd-Hm-MMI"/>
+                        </connections>
+                    </imageCell>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q8r-Ld-lM5">
                     <rect key="frame" x="56" y="30" width="40" height="17"/>
@@ -47,19 +49,20 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="lBI-rG-h3r" firstAttribute="top" secondItem="DLM-Wj-du3" secondAttribute="top" constant="8" id="3bG-G1-gcN"/>
+                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" symbolic="YES" id="5f8-U1-7c7"/>
                 <constraint firstItem="kIU-mW-xjM" firstAttribute="centerY" secondItem="DLM-Wj-du3" secondAttribute="centerY" id="C62-NS-GLs"/>
                 <constraint firstItem="Tgg-4j-1kD" firstAttribute="top" secondItem="kIU-mW-xjM" secondAttribute="bottom" id="Ccb-Pb-ZkN"/>
-                <constraint firstAttribute="bottom" secondItem="lBI-rG-h3r" secondAttribute="bottom" constant="8" id="Fd5-Tj-0bj"/>
-                <constraint firstItem="Tgg-4j-1kD" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" id="Ucn-4H-gT4"/>
-                <constraint firstItem="lBI-rG-h3r" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="WuJ-Tl-Uei"/>
+                <constraint firstItem="lBI-rG-h3r" firstAttribute="leading" secondItem="DLM-Wj-du3" secondAttribute="leading" constant="8" id="HO9-OU-c9g"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tgg-4j-1kD" secondAttribute="trailing" constant="8" id="eFj-Ft-Cuc"/>
                 <constraint firstItem="kIU-mW-xjM" firstAttribute="leading" secondItem="Q8r-Ld-lM5" secondAttribute="leading" id="h8J-Rl-lei"/>
+                <constraint firstItem="lBI-rG-h3r" firstAttribute="top" secondItem="DLM-Wj-du3" secondAttribute="top" constant="8" id="p6Z-zE-u10"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Q8r-Ld-lM5" secondAttribute="trailing" constant="8" id="ptI-nC-uI9"/>
+                <constraint firstItem="lBI-rG-h3r" firstAttribute="centerY" secondItem="kIU-mW-xjM" secondAttribute="centerY" id="rwn-iC-CGH"/>
                 <constraint firstItem="kIU-mW-xjM" firstAttribute="top" secondItem="Q8r-Ld-lM5" secondAttribute="bottom" id="uZF-16-wbb"/>
-                <constraint firstItem="Q8r-Ld-lM5" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" id="yZ6-f9-6mM"/>
+                <constraint firstItem="Tgg-4j-1kD" firstAttribute="leading" secondItem="lBI-rG-h3r" secondAttribute="trailing" constant="8" symbolic="YES" id="wKc-LN-RDI"/>
             </constraints>
             <connections>
+                <outlet property="threadAvatar" destination="lBI-rG-h3r" id="HRU-PB-eKn"/>
                 <outlet property="threadName" destination="Q8r-Ld-lM5" id="L14-An-fzn"/>
                 <outlet property="threadPreview" destination="Tgg-4j-1kD" id="2KV-Db-akk"/>
             </connections>
